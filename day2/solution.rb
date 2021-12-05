@@ -1,6 +1,6 @@
-input = File.read 'input2.txt'
+# frozen_string_literal: true
 
-commands = input.lines.map(&:strip)
+commands = lines
 
 x = 0
 y = 0
@@ -19,11 +19,7 @@ commands.each do |c|
   end
 end
 
-puts "X: #{x}; Y: #{y}"
-puts x * y
-
-# require 'pry'
-# binding.pry
+p1 x * y
 
 x = 0
 y = 0
@@ -44,6 +40,12 @@ commands.each do |c|
   end
 end
 
-puts "X: #{x}; Y: #{y}"
-puts x * y
+p2 x * y
 
+__END__
+forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2
