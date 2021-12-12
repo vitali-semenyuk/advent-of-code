@@ -6,11 +6,11 @@ def dfs(g, start, twice = false, visited = [])
   return [*visited, start] if start == 'end'
 
   g[start].each do |node|
-    if !visited.include?(node) || (twice && node != 'start' && visited.tally[node] == 1)
-      vis = [*visited]
-      vis << start if start.chars.all? { /[[:lower:]]/.match(_1) } || start == 'start'
-      $pathes << dfs(g, node, twice && !visited.include?(node), vis)
-    end
+    next unless !visited.include?(node) || (twice && node != 'start' && visited.tally[node] == 1)
+
+    vis = [*visited]
+    vis << start if start.chars.all? { /[[:lower:]]/.match(_1) } || start == 'start'
+    $pathes << dfs(g, node, twice && !visited.include?(node), vis)
   end
 
   visited

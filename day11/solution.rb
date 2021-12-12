@@ -7,14 +7,14 @@ def adj(point)
   y = point.last
 
   [
-    [x, y+1],
-    [x, y-1],
-    [x-1, y],
-    [x+1, y],
-    [x-1, y-1],
-    [x-1, y+1],
-    [x+1, y-1],
-    [x+1, y+1],
+    [x, y + 1],
+    [x, y - 1],
+    [x - 1, y],
+    [x + 1, y],
+    [x - 1, y - 1],
+    [x - 1, y + 1],
+    [x + 1, y - 1],
+    [x + 1, y + 1]
   ].filter { _1 >= 0 && _2 >= 0 && _1 < SIZE && _2 < SIZE }
 end
 
@@ -32,9 +32,7 @@ def bfs(matrix, queue)
     adj(cur).each do |a|
       matrix[a.last][a.first] += 1
 
-      if !visited[a.last][a.first] && matrix[a.last][a.first] > 9
-        queue << a
-      end
+      queue << a if !visited[a.last][a.first] && matrix[a.last][a.first] > 9
     end
   end
 end
@@ -47,16 +45,16 @@ sync = nil
   targets = []
 
   octopus.each.with_index do |row, y|
-    row.each.with_index do |oct, x|
+    row.each.with_index do |_oct, x|
       octopus[y][x] += 1
-      targets << [x,y] if octopus[y][x] > 9
+      targets << [x, y] if octopus[y][x] > 9
     end
   end
 
   bfs(octopus, targets)
 
   octopus.each.with_index do |row, y|
-    row.each.with_index do |oct, x|
+    row.each.with_index do |_oct, x|
       if octopus[y][x] > 9
         octopus[y][x] = 0
         flashes += 1 if i < 100
@@ -65,11 +63,10 @@ sync = nil
   end
 
   if octopus.all? { |r| r.all?(&:zero?) }
-  sync = i
-  break
+    sync = i
+    break
   end
 end
-
 
 p1 flashes
 
