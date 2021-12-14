@@ -22,10 +22,6 @@ def ints
   lines.map(&:to_i)
 end
 
-def bp
-  binding.pry
-end
-
 alias dd bp
 
 def p1(arg)
