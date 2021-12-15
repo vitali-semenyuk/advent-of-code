@@ -22,8 +22,6 @@ def ints
   lines.map(&:to_i)
 end
 
-alias dd bp
-
 def p1(arg)
   puts 'First task:'
   puts arg
