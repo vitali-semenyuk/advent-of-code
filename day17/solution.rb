@@ -3,7 +3,10 @@
 reg = /^target area: x=([\d-]+)..([\d-]+), y=([\d-]+)..([\d-]+)/
 input =~ reg
 
-x1, x2, y1, y2 = $1.to_i, $2.to_i, $3.to_i, $4.to_i
+x1 = Regexp.last_match(1).to_i
+x2 = Regexp.last_match(2).to_i
+y1 = Regexp.last_match(3).to_i
+y2 = Regexp.last_match(4).to_i
 
 xs = (0..x2).map do |vx|
   ys = (y1..1000).map do |vy|
@@ -15,9 +18,9 @@ xs = (0..x2).map do |vx|
       x += vvx
       y += vvy
       vvy -= 1
-      if vvx > 0
+      if vvx.positive?
         vvx -= 1
-      elsif vvx < 0
+      elsif vvx.negative?
         vvx += 1
       end
       [x, y]
