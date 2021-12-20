@@ -126,7 +126,8 @@ def max_value(node)
 end
 
 def explode(pair)
-  l, r = pair.left, pair.right
+  l = pair.left
+  r = pair.right
   ll = prev(pair.parent, pair)
   ll.value += l.value if ll
 
@@ -162,7 +163,7 @@ def print_num(num)
   str += print_num(num.left)
   str += ','
   str += print_num(num.right)
-  str + ']'
+  "#{str}]"
 end
 
 def update_levels(num)

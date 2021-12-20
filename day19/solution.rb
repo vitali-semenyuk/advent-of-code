@@ -13,7 +13,6 @@ sol = []
 rel.each.with_index do |scan_a, a|
   sol[a] = []
   scan_a.each.with_index do |ra, sai|
-
     rel.each.with_index do |scan_b, b|
       next if a == b
 
@@ -21,23 +20,19 @@ rel.each.with_index do |scan_a, a|
       next if sol[a][b].any?
 
       scan_b.each.with_index do |rb, sbi|
+        signs = nil
         intersec = ra.select do |rra|
-          rb.any? { eql[_1, rra] }
+          rb.any? do |q|
+            eql[q, rra].tap { signs = q.map.with_index { |x, i| x.positive? ? rra[i] / x : 0 } if _1 }
+          end
         end
 
         if intersec.size >= 12
-          pp scan_a[sai]
-          pp scan_b[sbi]
-          puts
-          pp intersec
-          puts
-          puts
-          sol[a][b] << [sai, sbi]
+          sol[a][b] << [sai, sbi, signs]
           break
         end
       end
     end
-
   end
 end
 
