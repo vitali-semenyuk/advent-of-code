@@ -20,15 +20,14 @@ rel.each.with_index do |scan_a, a|
       next if sol[a][b].any?
 
       scan_b.each.with_index do |rb, sbi|
-        signs = nil
         intersec = ra.select do |rra|
           rb.any? do |q|
-            eql[q, rra].tap { signs = q.map.with_index { |x, i| x.positive? ? rra[i] / x : 0 } if _1 }
+            eql[q, rra]
           end
         end
 
         if intersec.size >= 12
-          sol[a][b] << [sai, sbi, signs]
+          sol[a][b] << [sai, sbi]
           break
         end
       end
@@ -37,6 +36,37 @@ rel.each.with_index do |scan_a, a|
 end
 
 sol[0]
+rel[0][0].map { |point| rel[1][3].index { eql.(_1, point)} }
+sign = rel[0][0][1].map.with_index { _1 / rel[1][3][8][_2] }
+scanners[0][0].map.with_index { _1 - scanners[1][3][_2] * sign[_2] }
+
+sol.each.with_index do |start, sti|
+  puts "Start: #{sti}"
+
+  start.each.with_index do |dest, dei|
+    next if dest.nil? || dest.empty?
+
+    sti_s = dest[0].first
+    dei_s = dest[0].last
+    puts "End: #{dei}"
+
+    tmp = rel[sti][sti_s].map { |point| rel[dei][dei_s].index { eql.(_1, point)} }
+    puts 'tmp'
+    pp tmp
+    signs = tmp.map.with_index do |bi, ai|
+      next unless bi
+
+      rel[sti][sti_s][ai].map.with_index do
+        _1 / rel[dei][dei_s][bi][_2]
+      rescue ZeroDivisionError
+      end
+    end
+    puts 'signs'
+    pp signs
+
+    puts
+  end
+end
 
 binding.pry
 
