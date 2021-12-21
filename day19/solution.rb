@@ -35,11 +35,6 @@ rel.each.with_index do |scan_a, a|
   end
 end
 
-sol[0]
-rel[0][0].map { |point| rel[1][3].index { eql.(_1, point)} }
-sign = rel[0][0][1].map.with_index { _1 / rel[1][3][8][_2] }
-scanners[0][0].map.with_index { _1 - scanners[1][3][_2] * sign[_2] }
-
 sol.each.with_index do |start, sti|
   puts "Start: #{sti}"
 
@@ -51,8 +46,6 @@ sol.each.with_index do |start, sti|
     puts "End: #{dei}"
 
     tmp = rel[sti][sti_s].map { |point| rel[dei][dei_s].index { eql.(_1, point)} }
-    puts 'tmp'
-    pp tmp
     signs = tmp.map.with_index do |bi, ai|
       next unless bi
 
@@ -63,6 +56,13 @@ sol.each.with_index do |start, sti|
     end
     puts 'signs'
     pp signs
+
+    sign = signs.find { _1&.all? { |q| q&.abs == 1 } }
+    pp sign
+
+    kek = scanners[sti][sti_s].map.with_index { _1 - scanners[dei][dei_s][_2] * sign[_2] }
+    puts 'kek'
+    pp kek
 
     puts
   end
