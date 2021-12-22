@@ -16,8 +16,6 @@ loop do
   first %= 10
   first_score += first + 1
 
-  puts "Player 1 rolls #{dice_throws.join('+')} and moves to space #{first + 1} for a total score of #{first_score}"
-
   rolls += 3
   break if first_score >= 1000
 
@@ -28,8 +26,6 @@ loop do
   second_score += second + 1
 
   rolls += 3
-  puts "Player 2 rolls #{dice_throws.join('+')} and moves to space #{second + 1} for a total score of #{second_score}"
-
   break if second_score >= 1000
 end
 
