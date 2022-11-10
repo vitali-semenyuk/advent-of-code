@@ -4,12 +4,12 @@ def make_fold(paper, dir, point)
   if dir == 'y'
     y = point
     paper[...y].each.with_index do |_row, i|
-      paper[i] = paper[i].map.with_index { _1 == '#' ? _1 : paper[point * 2 - i][_2] }
+      paper[i] = paper[i].map.with_index { _1 == '#' ? _1 : paper[(point * 2) - i][_2] }
     end
   else
     x = point
     paper.each.with_index do |row, i|
-      paper[i] = row[...x].map.with_index { _1 == '#' ? _1 : row[x * 2 - _2] }
+      paper[i] = row[...x].map.with_index { _1 == '#' ? _1 : row[(x * 2) - _2] }
     end
   end
 

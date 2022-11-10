@@ -37,7 +37,7 @@ def bfs(matrix, queue)
   end
 end
 
-octopus = lines.map { _1.split('').map(&:to_i) }
+octopus = lines.map { _1.chars.map(&:to_i) }
 
 flashes = 0
 sync = nil

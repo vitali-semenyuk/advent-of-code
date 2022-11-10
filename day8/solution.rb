@@ -28,10 +28,10 @@ res = input.lines.map do |line|
   end.select { [1, 4, 7, 8].include? _2 }.to_h.invert
 
   h = {}
-  h [diff.call(hash[7], hash[1]).first] = diff.call(mapping[7], mapping[1]).first
+  h[diff.call(hash[7], hash[1]).first] = diff.call(mapping[7], mapping[1]).first
 
   mapping[6] = learn.select { _1.size == hash[0].size && diff.call(mapping[1], _1).any? }.first
-  h [diff.call(hash[8], hash[6]).first] = diff.call(mapping[1], mapping[6]).first
+  h[diff.call(hash[8], hash[6]).first] = diff.call(mapping[1], mapping[6]).first
   h[diff.call(hash[1], diff.call(hash[1], hash[6]).first).first] =
     diff.call(mapping[1], diff.call(mapping[1], mapping[6]).first).first
 
@@ -39,7 +39,7 @@ res = input.lines.map do |line|
 
   mapping[2] = learn.select { _1.size == hash[2].size && !_1.include?(h['f']) }.first
 
-  h [diff.call(hash[6], hash[5]).first] = diff.call(mapping[6], mapping[5]).first
+  h[diff.call(hash[6], hash[5]).first] = diff.call(mapping[6], mapping[5]).first
 
   mapping[9] = learn.select { _1.size == hash[9].size && !_1.include?(h['e']) }.first
 

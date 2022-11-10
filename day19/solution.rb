@@ -45,13 +45,13 @@ sol.each.with_index do |start, sti|
     dei_s = dest[0].last
     puts "End: #{dei}"
 
-    tmp = rel[sti][sti_s].map { |point| rel[dei][dei_s].index { eql.(_1, point)} }
+    tmp = rel[sti][sti_s].map { |point| rel[dei][dei_s].index { eql.call(_1, point)} }
     signs = tmp.map.with_index do |bi, ai|
       next unless bi
 
       rel[sti][sti_s][ai].map.with_index do
         _1 / rel[dei][dei_s][bi][_2]
-      rescue ZeroDivisionError
+    rescue ZeroDivisionError
       end
     end
     puts 'signs'
@@ -60,7 +60,7 @@ sol.each.with_index do |start, sti|
     sign = signs.find { _1&.all? { |q| q&.abs == 1 } }
     pp sign
 
-    kek = scanners[sti][sti_s].map.with_index { _1 - scanners[dei][dei_s][_2] * sign[_2] }
+    kek = scanners[sti][sti_s].map.with_index { _1 - (scanners[dei][dei_s][_2] * sign[_2]) }
     puts 'kek'
     pp kek
 

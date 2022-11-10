@@ -13,10 +13,10 @@ field = Array.new(field_side**2) { 0 }
 hv_lines.each do |line|
   if line.first[:x] == line.last[:x]
     x = line.first[:x]
-    Range.new(*[line.first[:y], line.last[:y]].sort).each { |y| field[y * field_side + x] += 1 }
+    Range.new(*[line.first[:y], line.last[:y]].sort).each { |y| field[(y * field_side) + x] += 1 }
   else
     y = line.first[:y]
-    Range.new(*[line.first[:x], line.last[:x]].sort).each { |x| field[y * field_side + x] += 1 }
+    Range.new(*[line.first[:x], line.last[:x]].sort).each { |x| field[(y * field_side) + x] += 1 }
   end
 end
 
@@ -30,7 +30,7 @@ diagonales.each do |line|
 
   xs = Range.new(x0, x1).step(x0 > x1 ? -1 : 1).to_a
   ys = Range.new(y0, y1).step(y0 > y1 ? -1 : 1).to_a
-  xs.zip(ys).each { |x, y| field[y * field_side + x] += 1 }
+  xs.zip(ys).each { |x, y| field[(y * field_side) + x] += 1 }
 end
 
 p2 field.filter { _1 >= 2 }.size

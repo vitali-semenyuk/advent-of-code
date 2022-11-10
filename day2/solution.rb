@@ -6,7 +6,7 @@ x = 0
 y = 0
 
 commands.each do |c|
-  action, value = c.split(' ')
+  action, value = c.split
   case action
   when 'forward'
     x += value.to_i
@@ -26,7 +26,7 @@ y = 0
 aim = 0
 
 commands.each do |c|
-  action, value = c.split(' ')
+  action, value = c.split
   case action
   when 'forward'
     x += value.to_i

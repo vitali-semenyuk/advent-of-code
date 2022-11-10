@@ -10,6 +10,8 @@ class ALU
 
   def calculate(input)
     @program.lines.each do |instruction|
+      puts instruction
+
       command, *operands = instruction.split
 
       case command
@@ -28,6 +30,8 @@ class ALU
       else
         raise 'Error'
       end
+
+      pp @registers
     end
   end
 
@@ -41,7 +45,7 @@ class ALU
 end
 
 alu = ALU.new(input)
-alu.calculate('13579246899999'.chars.map(&:to_i))
+alu.calculate((1..9).cycle.first(14))
 
 res = 0
 

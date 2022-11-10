@@ -2,7 +2,7 @@
 
 require 'algorithms'
 
-cave = input.lines.map { _1.strip.split('').map(&:to_i) }
+cave = input.lines.map { _1.strip.chars.map(&:to_i) }
 
 def dfs(cave)
   w = cave.first.size
@@ -28,10 +28,10 @@ def dfs(cave)
     cur = queue.pop
 
     y = cur / w
-    x = cur - y * w
+    x = cur - (y * w)
 
     adj.call([x, y]).each do |v|
-      vv = v.last * w + v.first
+      vv = (v.last * w) + v.first
       # next if !queue.include?(vv)
 
       alt = d[cur] + cave[v.last][v.first]
@@ -43,7 +43,7 @@ def dfs(cave)
     end
   end
 
-  d[h * w - 1]
+  d[(h * w) - 1]
 end
 
 p1 dfs(cave)

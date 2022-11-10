@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-MAP = input.split.map { _1.split('').map(&:to_i) }
+MAP = input.split.map { _1.chars.map(&:to_i) }
 h = MAP.size
 w = MAP.first.size
 ADJ_P = ->(x, y) { [[x, y + 1], [x, y - 1], [x - 1, y], [x + 1, y]].filter { _1 >= 0 && _2 >= 0 && _1 < w && _2 < h } }

@@ -6,7 +6,8 @@ instructions = lines.map do |line|
   switcher, rest = line.split
   points = rest.split(',').each_with_object({}) do |axis, obj|
     ax, values = axis.split('=')
-    obj[ax] = values.split('..').map(&:to_i).then { (-50..50).include?(_1.first) && (-50..50).include?(_1.last) ? _1 : [0, -1] }
+    obj[ax] =
+      values.split('..').map(&:to_i).then { (-50..50).include?(_1.first) && (-50..50).include?(_1.last) ? _1 : [0, -1] }
   end
   [switcher == 'on', points]
 end

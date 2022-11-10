@@ -186,7 +186,7 @@ end
 def magnitude(num)
   return num.value if num.value
 
-  magnitude(num.left) * 3 + magnitude(num.right) * 2
+  (magnitude(num.left) * 3) + (magnitude(num.right) * 2)
 end
 
 res = lines.map(&method(:parse_num)).reduce do |acc, num|

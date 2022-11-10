@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-gamma = lines.map { _1.split('') }.transpose.map(&:tally).map { |hash| hash.max_by { _2 }.first }.join.to_i(2)
-epsilon = lines.map { _1.split('') }.transpose.map(&:tally).map { |hash| hash.min_by { _2 }.first }.join.to_i(2)
+gamma = lines.map(&:chars).transpose.map(&:tally).map { |hash| hash.max_by { _2 }.first }.join.to_i(2)
+epsilon = lines.map(&:chars).transpose.map(&:tally).map { |hash| hash.min_by { _2 }.first }.join.to_i(2)
 
 p1 gamma * epsilon
 

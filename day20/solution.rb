@@ -2,7 +2,7 @@
 
 alg, image = input.split("\n\n")
 alg = alg.split("\n").join
-image = image.split("\n").map { _1.split('') }
+image = image.split("\n").map(&:chars)
 
 def adj(image, x, y, base)
   [[x - 1, y - 1], [x, y - 1], [x + 1, y - 1], [x - 1, y], [x, y], [x + 1, y], [x - 1, y + 1],
@@ -12,9 +12,9 @@ def adj(image, x, y, base)
 end
 
 def expand(img, chr)
-  [[chr]*(img.first.size + 4)]*2 +
-    img.map { [chr]*(2) + _1 + [chr]*(2) } +
-    [[chr]*(img.first.size + 4)]*2
+  ([[chr] * (img.first.size + 4)] * 2) +
+    img.map { ([chr] * 2) + _1 + ([chr] * 2) } +
+    ([[chr] * (img.first.size + 4)] * 2)
 end
 
 def narrow(img)
