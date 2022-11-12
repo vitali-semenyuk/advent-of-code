@@ -81,14 +81,11 @@ def evalu(packet)
 end
 
 lines.each do |line|
-  puts line
   val = line.strip.chars.map(&:hex).map { _1.to_s(2).rjust(4, '0') }.join
   parsed = parse_packet(val)
   p1 sol(parsed)
 
   p2 evalu(parsed)
-
-  puts
 end
 
 __END__
