@@ -1,4 +1,8 @@
-pub fn solve_first_part(input: &str) -> i32 {
+pub fn solve(input: &str) -> (i32, i32) {
+    (solve_first_part(input), solve_second_part(input))
+}
+
+fn solve_first_part(input: &str) -> i32 {
     let numbers: Vec<i32> = input.lines().map(|s| s.parse().unwrap()).collect();
     let mut result = 0;
 
@@ -14,7 +18,7 @@ pub fn solve_first_part(input: &str) -> i32 {
     result
 }
 
-pub fn solve_second_part(input: &str) -> i32 {
+fn solve_second_part(input: &str) -> i32 {
     let numbers: Vec<i32> = input.lines().map(|s| s.parse().unwrap()).collect();
     let mut result = 0;
 

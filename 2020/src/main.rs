@@ -1,11 +1,20 @@
-use std::{fs, io::Error};
+use std::{env, fs, io::Error};
 
 mod day1;
+mod day2;
+
+const DAYS: [fn(&str) -> (i32, i32); 2] = [day1::solve, day2::solve];
 
 fn main() -> Result<(), Error> {
-    let input = fs::read_to_string("./tasks/day1.txt")?;
-    let first_answer = day1::solve_first_part(&input);
-    let second_answer = day1::solve_second_part(&input);
+    let mut args = env::args();
+    args.next();
+    let day = args.next().expect("Please provide a day");
+    let day: u8 = day.parse().expect("Day should be a number");
+
+    let input = fs::read_to_string(format!("./tasks/day{day}.txt"))?;
+    let solver_fn = DAYS.get((day - 1) as usize).unwrap();
+
+    let (first_answer, second_answer) = solver_fn(&input);
 
     println!("First task: {}", first_answer);
     println!("Second task: {}", second_answer);
