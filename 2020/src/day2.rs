@@ -63,25 +63,22 @@ fn solve_second_part(input: &str) -> i64 {
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_first_part() {
-        let input = "1-3 a: abcde
+    const INPUT: &str = "1-3 a: abcde
 1-3 b: cdefg
 2-9 c: ccccccccc
 ";
+
+    #[test]
+    fn test_first_part() {
         let answer = 2;
 
-        assert_eq!(answer, solve_first_part(input))
+        assert_eq!(answer, solve_first_part(INPUT))
     }
 
     #[test]
     fn test_second_part() {
-        let input = "1-3 a: abcde
-1-3 b: cdefg
-2-9 c: ccccccccc
-";
         let answer = 1;
 
-        assert_eq!(answer, solve_second_part(input))
+        assert_eq!(answer, solve_second_part(INPUT))
     }
 }

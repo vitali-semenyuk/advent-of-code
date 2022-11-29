@@ -40,29 +40,24 @@ fn solve_second_part(input: &str) -> i64 {
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_first_part() {
-        let input = "1721
+    const INPUT: &str = "1721
 979
 366
 299
 675
 1456";
+
+    #[test]
+    fn test_first_part() {
         let answer = 514579;
 
-        assert_eq!(answer, solve_first_part(input))
+        assert_eq!(answer, solve_first_part(INPUT))
     }
 
     #[test]
     fn test_second_part() {
-        let input = "1721
-979
-366
-299
-675
-1456";
         let answer = 241861950;
 
-        assert_eq!(answer, solve_second_part(input))
+        assert_eq!(answer, solve_second_part(INPUT))
     }
 }

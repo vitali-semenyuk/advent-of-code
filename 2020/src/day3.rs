@@ -38,9 +38,7 @@ fn count_trees(input: &str, steps: (usize, usize)) -> i32 {
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_first_part() {
-        let input = "..##.......
+    const INPUT: &str = "..##.......
 #...#...#..
 .#....#..#.
 ..#.#...#.#
@@ -51,26 +49,18 @@ mod tests {
 #.##...#...
 #...##....#
 .#..#...#.#";
+
+    #[test]
+    fn test_first_part() {
         let answer = 7;
 
-        assert_eq!(answer, solve_first_part(input))
+        assert_eq!(answer, solve_first_part(INPUT))
     }
 
     #[test]
     fn test_second_part() {
-        let input = "..##.......
-#...#...#..
-.#....#..#.
-..#.#...#.#
-.#...##..#.
-..#.##.....
-.#.#.#....#
-.#........#
-#.##...#...
-#...##....#
-.#..#...#.#";
         let answer = 336;
 
-        assert_eq!(answer, solve_second_part(input))
+        assert_eq!(answer, solve_second_part(INPUT))
     }
 }
