@@ -39,24 +39,24 @@ impl From<&str> for Password {
     }
 }
 
-pub fn solve(input: &str) -> (i32, i32) {
+pub fn solve(input: &str) -> (i64, i64) {
     (solve_first_part(input), solve_second_part(input))
 }
 
-fn solve_first_part(input: &str) -> i32 {
+fn solve_first_part(input: &str) -> i64 {
     input
         .lines()
         .map(|l| Password::from(l))
         .filter(|p| p.is_valid_legacy())
-        .count() as i32
+        .count() as i64
 }
 
-fn solve_second_part(input: &str) -> i32 {
+fn solve_second_part(input: &str) -> i64 {
     input
         .lines()
         .map(|l| Password::from(l))
         .filter(|p| p.is_valid())
-        .count() as i32
+        .count() as i64
 }
 
 #[cfg(test)]

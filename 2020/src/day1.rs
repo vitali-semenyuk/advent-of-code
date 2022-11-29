@@ -1,9 +1,9 @@
-pub fn solve(input: &str) -> (i32, i32) {
+pub fn solve(input: &str) -> (i64, i64) {
     (solve_first_part(input), solve_second_part(input))
 }
 
-fn solve_first_part(input: &str) -> i32 {
-    let numbers: Vec<i32> = input.lines().map(|s| s.parse().unwrap()).collect();
+fn solve_first_part(input: &str) -> i64 {
+    let numbers: Vec<i64> = input.lines().map(|s| s.parse().unwrap()).collect();
     let mut result = 0;
 
     for i in 0..numbers.len() {
@@ -18,8 +18,8 @@ fn solve_first_part(input: &str) -> i32 {
     result
 }
 
-fn solve_second_part(input: &str) -> i32 {
-    let numbers: Vec<i32> = input.lines().map(|s| s.parse().unwrap()).collect();
+fn solve_second_part(input: &str) -> i64 {
+    let numbers: Vec<i64> = input.lines().map(|s| s.parse().unwrap()).collect();
     let mut result = 0;
 
     for i in 0..numbers.len() {

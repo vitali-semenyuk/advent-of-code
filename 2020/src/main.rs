@@ -2,8 +2,9 @@ use std::{env, fs, io::Error};
 
 mod day1;
 mod day2;
+mod day3;
 
-const DAYS: [fn(&str) -> (i32, i32); 2] = [day1::solve, day2::solve];
+const DAYS: [fn(&str) -> (i64, i64); 3] = [day1::solve, day2::solve, day3::solve];
 
 fn main() -> Result<(), Error> {
     let mut args = env::args();
