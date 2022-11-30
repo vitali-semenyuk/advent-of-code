@@ -61,6 +61,8 @@ fn solve_second_part(input: &str) -> i64 {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
     use super::*;
 
     const INPUT: &str = "1-3 a: abcde
@@ -80,5 +82,21 @@ mod tests {
         let answer = 1;
 
         assert_eq!(answer, solve_second_part(INPUT))
+    }
+
+    #[test]
+    fn first_part_solution() {
+        let input = fs::read_to_string("./tasks/day2.txt").unwrap();
+        let answer = 445;
+
+        assert_eq!(answer, solve_first_part(&input));
+    }
+
+    #[test]
+    fn second_part_solution() {
+        let input = fs::read_to_string("./tasks/day2.txt").unwrap();
+        let answer = 491;
+
+        assert_eq!(answer, solve_second_part(&input));
     }
 }

@@ -36,6 +36,8 @@ fn count_trees(input: &str, steps: (usize, usize)) -> i32 {
 }
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
     use super::*;
 
     const INPUT: &str = "..##.......
@@ -62,5 +64,21 @@ mod tests {
         let answer = 336;
 
         assert_eq!(answer, solve_second_part(INPUT))
+    }
+
+    #[test]
+    fn first_part_solution() {
+        let input = fs::read_to_string("./tasks/day3.txt").unwrap();
+        let answer = 294;
+
+        assert_eq!(answer, solve_first_part(&input));
+    }
+
+    #[test]
+    fn second_part_solution() {
+        let input = fs::read_to_string("./tasks/day3.txt").unwrap();
+        let answer = 5774564250;
+
+        assert_eq!(answer, solve_second_part(&input));
     }
 }

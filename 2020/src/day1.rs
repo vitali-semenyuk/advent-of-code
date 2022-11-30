@@ -38,6 +38,8 @@ fn solve_second_part(input: &str) -> i64 {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
     use super::*;
 
     const INPUT: &str = "1721
@@ -59,5 +61,21 @@ mod tests {
         let answer = 241861950;
 
         assert_eq!(answer, solve_second_part(INPUT))
+    }
+
+    #[test]
+    fn first_part_solution() {
+        let input = fs::read_to_string("./tasks/day1.txt").unwrap();
+        let answer = 927684;
+
+        assert_eq!(answer, solve_first_part(&input));
+    }
+
+    #[test]
+    fn second_part_solution() {
+        let input = fs::read_to_string("./tasks/day1.txt").unwrap();
+        let answer = 292093004;
+
+        assert_eq!(answer, solve_second_part(&input));
     }
 }

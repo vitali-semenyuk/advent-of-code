@@ -12,6 +12,8 @@ fn solve_second_part(input: &str) -> i64 {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
     use super::*;
 
     const INPUT: &str = "
@@ -29,5 +31,21 @@ mod tests {
         let answer = 42;
 
         assert_eq!(answer, solve_second_part(INPUT))
+    }
+
+    #[test]
+    fn first_part_solution() {
+        let input = fs::read_to_string("./tasks/dayX.txt").unwrap();
+        let answer = 42;
+
+        assert_eq!(answer, solve_first_part(&input));
+    }
+
+    #[test]
+    fn second_part_solution() {
+        let input = fs::read_to_string("./tasks/dayX.txt").unwrap();
+        let answer = 42;
+
+        assert_eq!(answer, solve_second_part(&input));
     }
 }
