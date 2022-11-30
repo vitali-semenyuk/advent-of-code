@@ -66,19 +66,5 @@ mod tests {
         assert_eq!(answer, solve_second_part(INPUT))
     }
 
-    #[test]
-    fn first_part_solution() {
-        let input = fs::read_to_string("./tasks/day3.txt").unwrap();
-        let answer = 294;
-
-        assert_eq!(answer, solve_first_part(&input));
-    }
-
-    #[test]
-    fn second_part_solution() {
-        let input = fs::read_to_string("./tasks/day3.txt").unwrap();
-        let answer = 5774564250;
-
-        assert_eq!(answer, solve_second_part(&input));
-    }
+    check_answers!(294, 5774564250);
 }

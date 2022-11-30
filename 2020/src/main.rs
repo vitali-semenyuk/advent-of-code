@@ -1,5 +1,8 @@
 use std::{env, fs};
 
+#[macro_use]
+mod macros;
+
 mod day1;
 mod day2;
 mod day3;

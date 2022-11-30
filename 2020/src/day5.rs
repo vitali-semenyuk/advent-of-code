@@ -74,19 +74,5 @@ BBFFBBFRLL";
         assert_eq!(820, parse_seat("BBFFBBFRLL"));
     }
 
-    #[test]
-    fn first_part_solution() {
-        let input = fs::read_to_string("./tasks/day5.txt").unwrap();
-        let answer = 998;
-
-        assert_eq!(answer, solve_first_part(&input));
-    }
-
-    #[test]
-    fn second_part_solution() {
-        let input = fs::read_to_string("./tasks/day5.txt").unwrap();
-        let answer = 676;
-
-        assert_eq!(answer, solve_second_part(&input));
-    }
+    check_answers!(998, 676);
 }

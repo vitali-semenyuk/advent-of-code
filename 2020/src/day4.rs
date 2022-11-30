@@ -185,19 +185,5 @@ iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719";
         assert_eq!(answer, solve_second_part(input))
     }
 
-    #[test]
-    fn first_part_solution() {
-        let input = fs::read_to_string("./tasks/day4.txt").unwrap();
-        let answer = 260;
-
-        assert_eq!(answer, solve_first_part(&input));
-    }
-
-    #[test]
-    fn second_part_solution() {
-        let input = fs::read_to_string("./tasks/day4.txt").unwrap();
-        let answer = 153;
-
-        assert_eq!(answer, solve_second_part(&input));
-    }
+    check_answers!(260, 153);
 }
