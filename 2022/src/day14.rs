@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+use std::fmt::{Debug, Display};
 
 #[derive(Debug)]
 struct Point {
@@ -50,11 +50,14 @@ impl Debug for Grid {
     }
 }
 
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
+fn solve_first_part(input: &str) -> u32 {
     let pathes: Vec<Vec<_>> = input
         .lines()
         .map(|l| l.split(" -> ").map(|p| Point::from(p)).collect())
@@ -96,7 +99,7 @@ fn solve_first_part(input: &str) -> i64 {
     n
 }
 
-fn solve_second_part(input: &str) -> i64 {
+fn solve_second_part(input: &str) -> u32 {
     let pathes: Vec<Vec<_>> = input
         .lines()
         .map(|l| l.split(" -> ").map(|p| Point::from(p)).collect())

@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 #[derive(Debug, PartialEq, Clone, Copy)]
 enum Shape {
     Rock,
@@ -11,21 +13,24 @@ enum Result {
     Draw,
 }
 
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
+fn solve_first_part(input: &str) -> u32 {
     input
         .lines()
         .map(|l| {
             let (opponent, me) = l.split_once(" ").unwrap();
             score_round((parse(me), parse(opponent)))
         })
-        .sum::<u32>() as i64
+        .sum()
 }
 
-fn solve_second_part(input: &str) -> i64 {
+fn solve_second_part(input: &str) -> u32 {
     input
         .lines()
         .map(|l| {
@@ -35,7 +40,7 @@ fn solve_second_part(input: &str) -> i64 {
             let me = find_shape(opponent, result);
             score_round((me, opponent))
         })
-        .sum::<u32>() as i64
+        .sum()
 }
 
 fn find_shape(opponent: Shape, result: Result) -> Shape {

@@ -1,10 +1,13 @@
-use std::collections::HashSet;
+use std::{collections::HashSet, fmt::Display};
 
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
+fn solve_first_part(input: &str) -> u16 {
     input
         .lines()
         .map(|l| {
@@ -15,10 +18,10 @@ fn solve_first_part(input: &str) -> i64 {
             let char = *a.intersection(&b).next().unwrap();
             get_priority(char)
         })
-        .sum::<u16>() as i64
+        .sum()
 }
 
-fn solve_second_part(input: &str) -> i64 {
+fn solve_second_part(input: &str) -> u16 {
     let binding: Vec<_> = input.lines().collect();
     binding
         .chunks(3)
@@ -31,7 +34,7 @@ fn solve_second_part(input: &str) -> i64 {
             let mut qwe = hs.iter();
             get_priority(*qwe.next().unwrap())
         })
-        .sum::<u16>() as i64
+        .sum()
 }
 
 fn get_priority(c: char) -> u16 {

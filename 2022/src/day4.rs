@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 #[derive(Debug)]
 struct Range {
     begin: u32,
@@ -14,11 +16,14 @@ impl From<&str> for Range {
     }
 }
 
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
+fn solve_first_part(input: &str) -> usize {
     input
         .lines()
         .map(|l| {
@@ -28,10 +33,10 @@ fn solve_first_part(input: &str) -> i64 {
         .filter(|(a, b)| {
             (a.begin <= b.begin && a.end >= b.end) || (b.begin <= a.begin && b.end >= a.end)
         })
-        .count() as i64
+        .count()
 }
 
-fn solve_second_part(input: &str) -> i64 {
+fn solve_second_part(input: &str) -> usize {
     input
         .lines()
         .map(|l| {
@@ -39,7 +44,7 @@ fn solve_second_part(input: &str) -> i64 {
             (Range::from(a), Range::from(b))
         })
         .filter(|(a, b)| (a.begin <= b.end && b.begin <= a.end))
-        .count() as i64
+        .count()
 }
 
 #[cfg(test)]

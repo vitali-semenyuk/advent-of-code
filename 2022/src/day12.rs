@@ -1,21 +1,24 @@
-use std::collections::{HashSet, VecDeque};
+use std::{collections::{HashSet, VecDeque}, fmt::Display};
 
 type Vertex = (usize, usize);
 
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
+fn solve_first_part(input: &str) -> i32 {
     let field: Vec<Vec<char>> = input.lines().map(|l| l.chars().collect()).collect();
 
     let start_y = field.iter().position(|row| row.contains(&'S')).unwrap();
     let start_x = field[start_y].iter().position(|&char| char == 'S').unwrap();
 
-    bfs(&field, (start_x, start_y)) as i64
+    bfs(&field, (start_x, start_y))
 }
 
-fn solve_second_part(input: &str) -> i64 {
+fn solve_second_part(input: &str) -> i32 {
     let field: Vec<Vec<char>> = input.lines().map(|l| l.chars().collect()).collect();
 
     let mut starts = Vec::new();
@@ -32,7 +35,7 @@ fn solve_second_part(input: &str) -> i64 {
         .iter()
         .map(|&start| bfs(&field, start))
         .min()
-        .unwrap() as i64
+        .unwrap()
 }
 
 fn bfs(field: &Vec<Vec<char>>, start: Vertex) -> i32 {

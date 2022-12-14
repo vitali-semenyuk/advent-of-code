@@ -1,24 +1,29 @@
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+use std::fmt::Display;
+
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
-    get_calories(input).max().unwrap() as i64
+fn solve_first_part(input: &str) -> u32 {
+    get_calories(input).max().unwrap()
 }
 
-fn solve_second_part(input: &str) -> i64 {
+fn solve_second_part(input: &str) -> u32 {
     let mut calories: Vec<_> = get_calories(input).collect();
 
     calories.sort();
     calories.reverse();
 
-    calories[..3].iter().sum::<u32>() as i64
+    calories[..3].iter().sum()
 }
 
 fn get_calories(input: &str) -> impl Iterator<Item = u32> + '_ {
     input
         .split("\n\n")
-        .map(|e| e.lines().map(|l| l.parse::<u32>().unwrap()).sum::<u32>())
+        .map(|e| e.lines().map(|l| l.parse::<u32>().unwrap()).sum())
 }
 
 #[cfg(test)]
