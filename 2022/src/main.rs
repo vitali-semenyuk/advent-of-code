@@ -11,6 +11,7 @@ mod day5;
 mod day6;
 mod day12;
 mod day14;
+mod day15;
 
 const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 14] = [
     day1::solve,
