@@ -6,6 +6,7 @@ mod macros;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 mod day12;
 mod day13;
 mod day14;
@@ -14,7 +15,7 @@ const DAYS: [fn(&str) -> (i64, i64); 14] = [
     day1::solve,
     day2::solve,
     day3::solve,
-    day1::solve,
+    day4::solve,
     day1::solve,
     day1::solve,
     day1::solve,
