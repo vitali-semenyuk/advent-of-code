@@ -4,13 +4,14 @@ use std::{env, fs};
 mod macros;
 
 mod day1;
+mod day2;
 mod day12;
 mod day13;
 mod day14;
 
 const DAYS: [fn(&str) -> (i64, i64); 14] = [
     day1::solve,
-    day1::solve,
+    day2::solve,
     day1::solve,
     day1::solve,
     day1::solve,
