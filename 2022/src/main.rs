@@ -6,8 +6,9 @@ mod macros;
 mod day1;
 mod day12;
 mod day13;
+mod day14;
 
-const DAYS: [fn(&str) -> (i64, i64); 12] = [
+const DAYS: [fn(&str) -> (i64, i64); 14] = [
     day1::solve,
     day1::solve,
     day1::solve,
@@ -20,6 +21,8 @@ const DAYS: [fn(&str) -> (i64, i64); 12] = [
     day1::solve,
     day1::solve,
     day12::solve,
+    day1::solve,
+    day14::solve,
 ];
 
 fn main() {

@@ -81,5 +81,5 @@ mod tests {
         assert_eq!(answer, solve_second_part(INPUT))
     }
 
-    // check_answers!(927684, 292093004);
+    // check_answers!(6428, 22464);
 }
