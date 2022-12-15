@@ -38,7 +38,7 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3";
 
     #[test]
     fn test_first_part() {
-        let answer = 42;
+        let answer = 26;
 
         assert_eq!(answer, solve_first_part(INPUT))
     }
