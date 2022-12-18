@@ -22,27 +22,75 @@ graph = data.lines.each_with_object({}) do |line, hash|
   hash[name] = {name:, flow_rate: flow_rate.to_i, tunnels:}
 end
 
-def dfs(graph, v, depth=30, rate=0, visited=[])
-  return 1 if depth == 0
-  return 1 if visited.size == graph.size
+CACHE = {}
+def call_cached(graph, v, depth, rate, enabled)
+  key = [v[:name], depth, rate]
+  res = CACHE[key]
+  return res if res
 
-  pp visited
+  res = dfs(graph, v, depth, rate, enabled)
+  CACHE[key] = res
+  res
+end
 
-  if !visited.include?(v[:name])
-    if v[:flow_rate] > 0
-      return dfs(graph, v, depth - 1, rate + v[:flow_rate], [*visited, v[:name]])
-    else
-      return dfs(graph, v, depth, rate,[*visited, v[:name]])
-    end
-  end
+def dfs(graph, v, depth=30, rate=0, enabled=[])
+  return 0 if depth == 0
 
   results = v[:tunnels].map do |t|
-    dfs(graph, graph[t], depth - 1, rate, visited)
+    call_cached(graph, graph[t], depth - 1, rate, enabled) + rate
+  end
+  if !enabled.include?(v[:name]) && v[:flow_rate] > 0
+    results << (call_cached(graph, v, depth - 1, rate + v[:flow_rate], [*enabled, v[:name]]) + rate)
   end
 
   results.max
 end
 
-pp graph
-puts
 pp dfs(graph, graph['AA'])
+
+# part 1 = 1986
+
+CACHE_2 = {}
+def call_cached_2(graph, v, w, depth, rate, enabled)
+  key = [v[:name], w[:name], depth, rate, enabled.hash]
+  res = CACHE_2[key]
+  return res if res
+
+  res1 = dfs_2(graph, v, w, depth, rate, enabled)
+  # if res && res != res1
+    # pp(v: v[:name], w: w[:name], depth:, rate:, enabled:)
+    # pp(key:, res:, res1:)
+
+    # exit 1
+  # end
+
+  CACHE_2[key] = res1
+  res1
+end
+
+def dfs_2(graph, v, w, depth=26, rate=0, enabled=[])
+  return 0 if depth == 0
+
+  results = v[:tunnels].product(w[:tunnels]).map do |t, el|
+    call_cached_2(graph, graph[t], graph[el], depth - 1, rate, enabled) + rate
+  end
+  if !enabled.include?(v[:name]) && v[:flow_rate] > 0 && !enabled.include?(w[:name]) && w[:flow_rate] > 0 && v[:name] != w[:name]
+    results << (call_cached_2(graph, v, w, depth - 1, rate + v[:flow_rate] + w[:flow_rate], [*enabled, v[:name], w[:name]]) + rate)
+  end
+  if !enabled.include?(v[:name]) && v[:flow_rate] > 0
+    w[:tunnels].each do |el|
+      results << (call_cached_2(graph, v, graph[el], depth - 1, rate + v[:flow_rate], [*enabled, v[:name]]) + rate)
+    end
+  end
+  if !enabled.include?(w[:name]) && w[:flow_rate] > 0
+    v[:tunnels].each do |t|
+      results << (call_cached_2(graph, graph[t], w, depth - 1, rate + w[:flow_rate], [*enabled, w[:name]]) + rate)
+    end
+  end
+
+  results.max
+end
+
+pp dfs_2(graph, graph['AA'], graph['AA'])
+
+# part 2 = 2431 - too low
