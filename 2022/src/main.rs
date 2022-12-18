@@ -15,8 +15,9 @@ mod day10;
 mod day12;
 mod day14;
 mod day15;
+mod day18;
 
-const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 15] = [
+const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 18] = [
     day1::solve,
     day2::solve,
     day3::solve,
@@ -32,6 +33,9 @@ const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 15] = [
     day1::solve,
     day14::solve,
     day15::solve,
+    day1::solve,
+    day1::solve,
+    day18::solve,
 ];
 
 fn main() {
