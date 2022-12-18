@@ -31,19 +31,19 @@ struct Point {
 
 #[derive(Debug)]
 struct Rope {
-    head: Point,
-    tail: Point,
+    knots: Vec<Point>,
     visited: Vec<Point>,
 }
 
 impl Rope {
-    fn new() -> Self {
-        let head = Point { x: 0, y: 0 };
-        let tail = Point { x: 0, y: 0 };
+    fn new(size: usize) -> Self {
+        let mut knots = Vec::new();
+        for _ in 0..size {
+            knots.push(Point { x: 0, y: 0 })
+        }
 
         Rope {
-            head,
-            tail,
+            knots,
             visited: Vec::new(),
         }
     }
@@ -52,47 +52,61 @@ impl Rope {
         match motion {
             Motion::Up(len) => {
                 for _ in 0..len {
-                    self.head.y += 1;
-                    self.sync_tail()
+                    self.knots[0].y += 1;
+                    for i in 1..self.knots.len() {
+                        self.sync_tail(i)
+                    }
+                    self.visited.push(self.knots.last().unwrap().clone());
                 }
             }
             Motion::Down(len) => {
                 for _ in 0..len {
-                    self.head.y -= 1;
-                    self.sync_tail()
+                    self.knots[0].y -= 1;
+                    for i in 1..self.knots.len() {
+                        self.sync_tail(i)
+                    }
+                    self.visited.push(self.knots.last().unwrap().clone());
                 }
             }
             Motion::Left(len) => {
                 for _ in 0..len {
-                    self.head.x -= 1;
-                    self.sync_tail()
+                    self.knots[0].x -= 1;
+                    for i in 1..self.knots.len() {
+                        self.sync_tail(i)
+                    }
+                    self.visited.push(self.knots.last().unwrap().clone());
                 }
             }
             Motion::Right(len) => {
                 for _ in 0..len {
-                    self.head.x += 1;
-                    self.sync_tail()
+                    self.knots[0].x += 1;
+                    for i in 1..self.knots.len() {
+                        self.sync_tail(i)
+                    }
+                    self.visited.push(self.knots.last().unwrap().clone());
                 }
             }
         }
     }
 
-    fn sync_tail(&mut self) {
-        let x_diff = self.head.x - self.tail.x;
-        let y_diff = self.head.y - self.tail.y;
+    fn sync_tail(&mut self, index: usize) {
+        let head = self.knots.get(index - 1).unwrap();
+        let tail = self.knots.get(index).unwrap();
+        let x_diff = head.x - tail.x;
+        let y_diff = head.y - tail.y;
+
+        let tail = self.knots.get_mut(index).unwrap();
 
         if x_diff.abs() > 1 || y_diff.abs() > 1 {
             if x_diff == 0 {
-                self.tail.y += y_diff.signum()
+                tail.y += y_diff.signum()
             } else if y_diff == 0 {
-                self.tail.x += x_diff.signum()
+                tail.x += x_diff.signum()
             } else {
-                self.tail.y += y_diff.signum();
-                self.tail.x += x_diff.signum()
+                tail.y += y_diff.signum();
+                tail.x += x_diff.signum()
             }
         }
-
-        self.visited.push(self.tail.clone());
     }
 }
 
@@ -106,7 +120,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 fn solve_first_part(input: &str) -> usize {
     let motions: Vec<_> = input.lines().map(Motion::from).collect();
 
-    let mut rope = Rope::new();
+    let mut rope = Rope::new(2);
 
     for motion in motions {
         rope.make_move(motion);
@@ -115,8 +129,16 @@ fn solve_first_part(input: &str) -> usize {
     HashSet::<Point>::from_iter(rope.visited.iter().cloned()).len()
 }
 
-fn solve_second_part(input: &str) -> i32 {
-    42
+fn solve_second_part(input: &str) -> usize {
+    let motions: Vec<_> = input.lines().map(Motion::from).collect();
+
+    let mut rope = Rope::new(10);
+
+    for motion in motions {
+        rope.make_move(motion);
+    }
+
+    HashSet::<Point>::from_iter(rope.visited.iter().cloned()).len()
 }
 
 #[cfg(test)]
@@ -155,5 +177,5 @@ U 20";
         assert_eq!(36, solve_second_part(input))
     }
 
-    // check_answers!(5907, 42);
+    check_answers!(5907, 2303);
 }
