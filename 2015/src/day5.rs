@@ -66,8 +66,6 @@ fn check_tripple(string: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     #[test]

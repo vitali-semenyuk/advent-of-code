@@ -7,23 +7,22 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     )
 }
 
-fn solve_first_part(input: &str) -> i32 {
+fn solve_first_part(_input: &str) -> i32 {
     0
 }
 
-fn solve_second_part(input: &str) -> i32 {
-    42
+fn solve_second_part(_input: &str) -> i32 {
+    0
 }
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "
 ";
 
+    #[ignore]
     #[test]
     fn test_first_part() {
         let answer = 42;
@@ -31,6 +30,7 @@ mod tests {
         assert_eq!(answer, solve_first_part(INPUT))
     }
 
+    #[ignore]
     #[test]
     fn test_second_part() {
         let answer = 42;

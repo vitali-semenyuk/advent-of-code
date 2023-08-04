@@ -85,8 +85,6 @@ fn solve_second_part(input: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     #[test]

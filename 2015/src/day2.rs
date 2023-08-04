@@ -65,7 +65,7 @@ fn solve_first_part(input: &str) -> u32 {
 }
 
 fn solve_second_part(input: &str) -> u32 {
-     input
+    input
         .lines()
         .map(GiftBox::from)
         .map(|gift| gift.ribbon_length())
@@ -74,8 +74,6 @@ fn solve_second_part(input: &str) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     #[test]

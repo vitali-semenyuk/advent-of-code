@@ -35,8 +35,6 @@ fn step(floor: i32, instr: char) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     #[test]

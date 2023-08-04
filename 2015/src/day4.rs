@@ -42,8 +42,6 @@ fn mine(key: &str, padding: usize) -> Option<u32> {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     #[test]
