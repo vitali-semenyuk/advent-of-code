@@ -7,9 +7,15 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
-const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 4] =
-    [day1::solve, day2::solve, day3::solve, day4::solve];
+const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 5] = [
+    day1::solve,
+    day2::solve,
+    day3::solve,
+    day4::solve,
+    day5::solve,
+];
 
 fn main() {
     let mut args = env::args();
