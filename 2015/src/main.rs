@@ -5,8 +5,10 @@ mod macros;
 
 mod day1;
 mod day2;
+mod day3;
 
-const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 2] = [day1::solve, day2::solve];
+const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 3] =
+    [day1::solve, day2::solve, day3::solve];
 
 fn main() {
     let mut args = env::args();
