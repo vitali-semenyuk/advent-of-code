@@ -4,8 +4,9 @@ use std::{env, fmt::Display, fs};
 mod macros;
 
 mod day1;
+mod day2;
 
-const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 1] = [day1::solve];
+const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 2] = [day1::solve, day2::solve];
 
 fn main() {
     let mut args = env::args();
