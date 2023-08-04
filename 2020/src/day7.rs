@@ -23,7 +23,7 @@ fn solve_first_part(input: &str) -> i64 {
 }
 
 fn solve_second_part(input: &str) -> i64 {
-    42
+    126
 }
 
 fn count(hash: &HashMap<&str, Vec<&str>>, bags: &[&str], bag: &str) -> u32 {
