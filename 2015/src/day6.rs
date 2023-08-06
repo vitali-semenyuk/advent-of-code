@@ -41,10 +41,10 @@ impl From<&str> for Command {
 
         let (x1, y1) = start.split_once(",").expect(ERROR_MESSAGE);
         let (x2, y2) = end.split_once(",").expect(ERROR_MESSAGE);
-        let x1: usize = x1.parse().expect(ERROR_MESSAGE);
-        let y1: usize = y1.parse().expect(ERROR_MESSAGE);
-        let x2: usize = x2.parse().expect(ERROR_MESSAGE);
-        let y2: usize = y2.parse().expect(ERROR_MESSAGE);
+        let x1 = x1.parse().expect(ERROR_MESSAGE);
+        let y1 = y1.parse().expect(ERROR_MESSAGE);
+        let x2 = x2.parse().expect(ERROR_MESSAGE);
+        let y2 = y2.parse().expect(ERROR_MESSAGE);
 
         let region = Region { x1, x2, y1, y2 };
 

@@ -37,9 +37,9 @@ impl GiftBox {
 impl From<&str> for GiftBox {
     fn from(value: &str) -> Self {
         let mut splitted = value.splitn(3, 'x');
-        let length: u32 = splitted.next().unwrap().parse().unwrap();
-        let width: u32 = splitted.next().unwrap().parse().unwrap();
-        let height: u32 = splitted.next().unwrap().parse().unwrap();
+        let length = splitted.next().unwrap().parse().unwrap();
+        let width = splitted.next().unwrap().parse().unwrap();
+        let height = splitted.next().unwrap().parse().unwrap();
 
         Self {
             length,
