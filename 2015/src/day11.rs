@@ -134,6 +134,7 @@ mod tests {
 
     #[test]
     fn test_get_next_password() {
+        // TODO: Fix passwords starting with 'a'
         // assert_eq!(get_next_password("abcdefgh"), "abcdffaa");
         assert_eq!(get_next_password("ghijklmn"), "ghjaabcc");
     }

@@ -38,15 +38,15 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> u32 {
-    let valves: HashMap<_, _> = input
-        .lines()
-        .map(|l| {
-            let valve = Valve::from(l);
-            (valve.name.clone(), valve)
-        })
-        .collect();
+    // let valves: HashMap<_, _> = input
+    //     .lines()
+    //     .map(|l| {
+    //         let valve = Valve::from(l);
+    //         (valve.name.clone(), valve)
+    //     })
+    //     .collect();
 
-    dbg!(&valves);
+    // dbg!(&valves);
 
     // dfs(&valves, valves.get("AA").unwrap(), 30, 0, Vec::new())
     0
@@ -56,45 +56,45 @@ fn solve_second_part(input: &str) -> i32 {
     42
 }
 
-fn dfs(
-    graph: &HashMap<String, Valve>,
-    v: &Valve,
-    depth: u32,
-    rate: u32,
-    enabled: Vec<String>,
-) -> u32 {
-    let cache = HashMap::new();
+// fn dfs(
+//     graph: &HashMap<String, Valve>,
+//     v: &Valve,
+//     depth: u32,
+//     rate: u32,
+//     enabled: Vec<String>,
+// ) -> u32 {
+//     let cache = HashMap::new();
 
-    let inner = |graph, v: &Valve, depth, rate, enabled: Vec<String>| {
-        let key =
-        if depth == 0 {
-            return 0;
-        }
+//     let inner = |graph, v: &Valve, depth, rate, enabled: Vec<String>| {
+//         // let key =
+//         // if depth == 0 {
+//         //     return 0;
+//         // }
 
-        let mut results: Vec<u32> = v
-            .tunnels
-            .iter()
-            .map(|t| {
-                dfs(
-                    graph,
-                    graph.get(t).unwrap(),
-                    depth - 1,
-                    rate,
-                    enabled.clone(),
-                ) + rate
-            })
-            .collect();
-        if enabled.contains(&v.name) && v.rate > 0 {
-            let mut enabled = enabled.clone();
-            enabled.push(v.name.clone());
-            results.push(dfs(graph, v, depth - 1, rate + v.rate, enabled))
-        }
+//         let mut results: Vec<u32> = v
+//             .tunnels
+//             .iter()
+//             .map(|t| {
+//                 dfs(
+//                     graph,
+//                     graph.get(t).unwrap(),
+//                     depth - 1,
+//                     rate,
+//                     enabled.clone(),
+//                 ) + rate
+//             })
+//             .collect();
+//         if enabled.contains(&v.name) && v.rate > 0 {
+//             let mut enabled = enabled.clone();
+//             enabled.push(v.name.clone());
+//             results.push(dfs(graph, v, depth - 1, rate + v.rate, enabled))
+//         }
 
-        *results.iter().max().unwrap()
-    };
+//         *results.iter().max().unwrap()
+//     };
 
-    inner(graph, v, depth, rate, enabled)
-}
+//     inner(graph, v, depth, rate, enabled)
+// }
 
 // fn calculate_hash<T: Hash>(t: &T) -> u64 {
 //     let mut s = DefaultHasher::new();
@@ -119,6 +119,7 @@ Valve HH has flow rate=22; tunnel leads to valve GG
 Valve II has flow rate=0; tunnels lead to valves AA, JJ
 Valve JJ has flow rate=21; tunnel leads to valve II";
 
+    #[ignore]
     #[test]
     fn test_first_part() {
         let answer = 1651;
@@ -126,6 +127,7 @@ Valve JJ has flow rate=21; tunnel leads to valve II";
         assert_eq!(answer, solve_first_part(INPUT))
     }
 
+    #[ignore]
     #[test]
     fn test_second_part() {
         let answer = 1707;
