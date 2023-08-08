@@ -132,22 +132,19 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> i32 {
-    let input = input.lines().next().unwrap();
-    let mut actor = Actor::new();
-
-    for movement in input.split(", ").map(Movement::from) {
-        actor.step(movement, true);
-    }
-
-    actor.get_distance()
+    calculate_distance(input, true)
 }
 
 fn solve_second_part(input: &str) -> i32 {
+    calculate_distance(input, false)
+}
+
+fn calculate_distance(input: &str, with_repetitions: bool) -> i32 {
     let input = input.lines().next().unwrap();
     let mut actor = Actor::new();
 
     for movement in input.split(", ").map(Movement::from) {
-        if !actor.step(movement, false) {
+        if !actor.step(movement, with_repetitions) {
             break;
         }
     }

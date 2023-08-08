@@ -3,6 +3,12 @@ use std::{fmt::Display, str::FromStr};
 #[derive(Debug)]
 struct ParseError(String);
 
+impl Display for ParseError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "ParseError: {}", self.0)
+    }
+}
+
 #[derive(Debug)]
 enum Register {
     A,
@@ -111,7 +117,7 @@ impl Computer {
         Self { a, b, ip: 0 }
     }
 
-    fn evaluate(&mut self, instructions: &Vec<Instruction>) -> bool {
+    fn evaluate(&mut self, instructions: &Vec<Instruction>) {
         loop {
             let instruction = instructions.get(self.ip);
             if instruction.is_none() {
@@ -125,7 +131,7 @@ impl Computer {
                 Instruction::Jump(n) => {
                     self.jump(*n);
                     continue;
-                },
+                }
                 Instruction::JumpEven(r, n) => {
                     if self.get_register(r) % 2 == 0 {
                         self.jump(*n);
@@ -142,8 +148,6 @@ impl Computer {
 
             self.ip += 1;
         }
-
-        false
     }
 
     fn get_register(&self, register: &Register) -> u32 {
@@ -178,15 +182,17 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> u32 {
-    let (_, b) = evaluate(input, 0).expect("Unexpected runtime error");
-
-    b
+    match evaluate(input, 0) {
+        Ok((_, b)) => b,
+        Err(error) => panic!("{error}"),
+    }
 }
 
 fn solve_second_part(input: &str) -> u32 {
-    let (_, b) = evaluate(input, 1).expect("Unexpected runtime error");
-
-    b
+    match evaluate(input, 1) {
+        Ok((_, b)) => b,
+        Err(error) => panic!("{error}"),
+    }
 }
 
 fn evaluate(source_code: &str, register_a: u32) -> Result<(u32, u32), ParseError> {

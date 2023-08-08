@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      matrix: { dir: [ "2015", "2020", "2022" ] }
+      matrix: { dir: [ "2015", "2016", "2020", "2022" ] }
 
     steps:
     - uses: actions/checkout@v3
