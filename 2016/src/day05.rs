@@ -82,7 +82,6 @@ mod tests {
     const INPUT: &str = "abc
 ";
 
-    #[ignore]
     #[test]
     fn test_first_part() {
         let answer = "18f47a30";
