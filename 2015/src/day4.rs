@@ -1,4 +1,3 @@
-use md5;
 use std::fmt::Display;
 
 pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
