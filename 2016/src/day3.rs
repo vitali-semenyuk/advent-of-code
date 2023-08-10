@@ -56,7 +56,7 @@ fn solve_second_part(input: &str) -> usize {
 
     triangles
         .chunks(3)
-        .map(|c| transpose(c))
+        .map(transpose)
         .flatten()
         .map(Triangle::from)
         .filter(Triangle::is_valid)
