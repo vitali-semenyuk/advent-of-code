@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{collections::HashMap, fmt::Display};
 
 pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     (
@@ -7,36 +7,83 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     )
 }
 
-fn solve_first_part(_input: &str) -> i32 {
-    0
+fn solve_first_part(input: &str) -> String {
+    let attempts = input.lines().collect::<Vec<_>>();
+
+    restore_string(&attempts, false)
 }
 
-fn solve_second_part(_input: &str) -> i32 {
-    0
+fn solve_second_part(input: &str) -> String {
+    let attempts = input.lines().collect::<Vec<_>>();
+
+    restore_string(&attempts, true)
+}
+
+fn restore_string(attempts: &Vec<&str>, least: bool) -> String {
+    let length = attempts[0].len();
+
+    let transposed: Vec<Vec<_>> = (0..length)
+        .map(|i| {
+            attempts
+                .iter()
+                .map(|row| row.chars().nth(i).unwrap())
+                .collect()
+        })
+        .collect();
+
+    transposed
+        .into_iter()
+        .map(|seq| {
+            let frequences = seq.into_iter().fold(HashMap::new(), |mut acc, char| {
+                let count = acc.get(&char).unwrap_or(&0);
+                acc.insert(char, count + 1);
+                acc
+            });
+            let mut frequences = frequences.into_iter().collect::<Vec<_>>();
+            frequences.sort_by(|a, b| a.1.cmp(&b.1));
+            if !least {
+                frequences.reverse();
+            }
+            frequences.first().unwrap().0
+        })
+        .collect()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    const INPUT: &str = "
+    const INPUT: &str = "eedadn
+drvtee
+eandsr
+raavrd
+atevrs
+tsrnev
+sdttsa
+rasrtv
+nssdts
+ntnada
+svetve
+tesnvt
+vntsnd
+vrdear
+dvrsen
+enarar
 ";
 
-    #[ignore]
     #[test]
     fn test_first_part() {
-        let answer = 42;
+        let answer = "easter";
 
         assert_eq!(answer, solve_first_part(INPUT))
     }
 
-    #[ignore]
     #[test]
     fn test_second_part() {
-        let answer = 42;
+        let answer = "advent";
 
         assert_eq!(answer, solve_second_part(INPUT))
     }
 
-    // check_answers!(42, 42);
+    check_answers!("umcvzsmw", "rwqoacfz");
 }
