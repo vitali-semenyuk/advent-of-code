@@ -42,7 +42,7 @@ impl FromStr for Instruction {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let (instruction, arguments) = s
-            .split_once(" ")
+            .split_once(' ')
             .ok_or(ParseError(format!("Expected instruction, got '{s}'")))?;
         let mut arguments = arguments.split(", ");
 
@@ -117,7 +117,7 @@ impl Computer {
         Self { a, b, ip: 0 }
     }
 
-    fn evaluate(&mut self, instructions: &Vec<Instruction>) {
+    fn evaluate(&mut self, instructions: &[Instruction]) {
         loop {
             let instruction = instructions.get(self.ip);
             if instruction.is_none() {

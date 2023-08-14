@@ -8,12 +8,12 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> String {
-    let door_id = input.strip_suffix("\n").unwrap();
+    let door_id = input.strip_suffix('\n').unwrap();
     generate_passord_legacy(door_id, 8)
 }
 
 fn solve_second_part(input: &str) -> String {
-    let door_id = input.strip_suffix("\n").unwrap();
+    let door_id = input.strip_suffix('\n').unwrap();
     generate_passord(door_id, 8)
 }
 

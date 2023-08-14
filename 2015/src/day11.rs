@@ -20,7 +20,7 @@ impl Password {
         self.0 += 1
     }
 
-    fn to_string(&self) -> String {
+    fn stringify(&self) -> String {
         let mut value = self.0;
         let mut result = Vec::new();
 
@@ -28,7 +28,7 @@ impl Password {
             let modulo = value % 26;
             value /= 26;
 
-            result.push((modulo as u8 + 'a' as u8) as char);
+            result.push((modulo as u8 + b'a') as char);
 
             if value == 0 {
                 break;
@@ -49,13 +49,13 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> String {
-    let password = input.strip_suffix("\n").unwrap();
+    let password = input.strip_suffix('\n').unwrap();
 
     get_next_password(password)
 }
 
 fn solve_second_part(input: &str) -> String {
-    let password = input.strip_suffix("\n").unwrap();
+    let password = input.strip_suffix('\n').unwrap();
 
     let new_password = get_next_password(password);
     get_next_password(&new_password)
@@ -67,12 +67,12 @@ fn get_next_password(password: &str) -> String {
     loop {
         password.succ();
 
-        if validate_password(&password.to_string()) {
+        if validate_password(&password.stringify()) {
             break;
         }
     }
 
-    password.to_string()
+    password.stringify()
 }
 
 fn validate_password(password: &str) -> bool {
@@ -93,10 +93,9 @@ fn check_restricted(password: &str) -> bool {
 
 fn check_pairs(password: &str) -> bool {
     let chars = password.chars().collect::<Vec<_>>();
-    let mut pairs = chars.windows(2);
     let mut set = HashSet::new();
 
-    while let Some(pair) = pairs.next() {
+    for pair in chars.windows(2) {
         if pair[0] != pair[1] {
             continue;
         }

@@ -12,7 +12,7 @@ impl From<&str> for Value {
     fn from(value: &str) -> Self {
         value
             .parse::<u16>()
-            .map_or(Value::Wire(value.to_string()), |n| Value::Specific(n))
+            .map_or(Value::Wire(value.to_string()), Value::Specific)
     }
 }
 
@@ -93,7 +93,7 @@ impl Circuit {
 
         let mut get_value = |value: &Value| -> Option<u16> {
             match value {
-                Value::Wire(x) => self.evaluate(&x, cache),
+                Value::Wire(x) => self.evaluate(x, cache),
                 Value::Specific(v) => Some(*v),
             }
         };

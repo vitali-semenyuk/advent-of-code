@@ -39,8 +39,7 @@ impl IpV7 {
     fn supports_ssl(&self) -> bool {
         self.sequences
             .iter()
-            .map(|seq| IpV7::get_aba_strings(seq))
-            .flatten()
+            .flat_map(|seq| IpV7::get_aba_strings(seq))
             .any(|aba| {
                 self.hypernet_sequences
                     .iter()

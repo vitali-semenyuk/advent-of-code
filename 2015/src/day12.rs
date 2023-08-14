@@ -22,10 +22,10 @@ fn solve_second_part(input: &str) -> i64 {
 fn sum_all_numbers(json: &Value) -> i64 {
     match json {
         Value::Number(n) => n.as_i64().unwrap(),
-        Value::Array(array) => array.iter().map(|element| sum_all_numbers(element)).sum(),
+        Value::Array(array) => array.iter().map(sum_all_numbers).sum(),
         Value::Object(object) => object
             .values()
-            .map(|element| sum_all_numbers(element))
+            .map(sum_all_numbers)
             .sum(),
         _ => 0,
     }
@@ -34,13 +34,13 @@ fn sum_all_numbers(json: &Value) -> i64 {
 fn sum_numbers(json: &Value) -> i64 {
     match json {
         Value::Number(n) => n.as_i64().unwrap(),
-        Value::Array(array) => array.iter().map(|element| sum_numbers(element)).sum(),
+        Value::Array(array) => array.iter().map(sum_numbers).sum(),
         Value::Object(object) => {
             if object.values().any(|value| value == "red") {
                 return 0;
             }
 
-            object.values().map(|element| sum_numbers(element)).sum()
+            object.values().map(sum_numbers).sum()
         }
         _ => 0,
     }

@@ -9,7 +9,7 @@ struct Sue {
 impl From<&str> for Sue {
     fn from(value: &str) -> Self {
         let (id, rest) = value.split_once(": ").unwrap();
-        let (_, id) = id.split_once(" ").unwrap();
+        let (_, id) = id.split_once(' ').unwrap();
         let id = id.parse().unwrap();
 
         let items = rest.split(", ").fold(HashMap::new(), |mut acc, pair| {

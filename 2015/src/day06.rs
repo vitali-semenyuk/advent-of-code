@@ -39,8 +39,8 @@ impl From<&str> for Command {
         parts.next();
         let end = parts.next().expect(ERROR_MESSAGE);
 
-        let (x1, y1) = start.split_once(",").expect(ERROR_MESSAGE);
-        let (x2, y2) = end.split_once(",").expect(ERROR_MESSAGE);
+        let (x1, y1) = start.split_once(',').expect(ERROR_MESSAGE);
+        let (x2, y2) = end.split_once(',').expect(ERROR_MESSAGE);
         let x1 = x1.parse().expect(ERROR_MESSAGE);
         let y1 = y1.parse().expect(ERROR_MESSAGE);
         let x2 = x2.parse().expect(ERROR_MESSAGE);

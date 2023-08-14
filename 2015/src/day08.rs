@@ -55,10 +55,9 @@ impl DoubleQuotedString {
     }
 
     fn encode(&self) -> String {
-        let mut chars = self.0.chars();
         let mut string = String::from("\"");
 
-        while let Some(char) = chars.next() {
+        for char in self.0.chars() {
             match char {
                 '\\' | '"' => string.extend(['\\', char]),
                 _ => string.push(char),

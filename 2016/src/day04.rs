@@ -9,9 +9,9 @@ struct Room {
 
 impl From<&str> for Room {
     fn from(value: &str) -> Self {
-        let (encrypted_name, rest) = value.rsplit_once("-").unwrap();
-        let (sector_id, checksum) = rest.split_once("[").unwrap();
-        let checksum = checksum.strip_suffix("]").unwrap();
+        let (encrypted_name, rest) = value.rsplit_once('-').unwrap();
+        let (sector_id, checksum) = rest.split_once('[').unwrap();
+        let checksum = checksum.strip_suffix(']').unwrap();
 
         Self {
             encrypted_name: encrypted_name.to_string(),

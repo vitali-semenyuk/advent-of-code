@@ -19,7 +19,7 @@ fn solve_second_part(input: &str) -> String {
     restore_string(&attempts, true)
 }
 
-fn restore_string(attempts: &Vec<&str>, least: bool) -> String {
+fn restore_string(attempts: &[&str], least: bool) -> String {
     let length = attempts[0].len();
 
     let transposed: Vec<Vec<_>> = (0..length)

@@ -72,8 +72,7 @@ fn solve_first_part(input: &str) -> u32 {
     graph
         .0
         .keys()
-        .map(|start| traverse(&graph, start, &Vec::new()))
-        .flatten()
+        .flat_map(|start| traverse(&graph, start, &Vec::new()))
         .min()
         .unwrap()
 }
@@ -85,13 +84,12 @@ fn solve_second_part(input: &str) -> u32 {
     graph
         .0
         .keys()
-        .map(|start| traverse(&graph, start, &Vec::new()))
-        .flatten()
+        .flat_map(|start| traverse(&graph, start, &Vec::new()))
         .max()
         .unwrap()
 }
 
-fn traverse(graph: &Graph, node: &String, visited: &Vec<String>) -> Vec<u32> {
+fn traverse(graph: &Graph, node: &String, visited: &[String]) -> Vec<u32> {
     let destinations = graph.0.get(node).expect("Node not found");
     let mut distances = vec![];
 
@@ -100,7 +98,7 @@ fn traverse(graph: &Graph, node: &String, visited: &Vec<String>) -> Vec<u32> {
             continue;
         }
 
-        let mut visited = visited.clone();
+        let mut visited = visited.to_owned();
         visited.push(node.clone());
 
         let mut ds = traverse(graph, destination, &visited)
