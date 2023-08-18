@@ -19,7 +19,9 @@ mod day15;
 mod day16;
 mod day18;
 
-const DAYS: [fn(&str) -> (Box<dyn Display>, Box<dyn Display>); 18] = [
+type SolverFunction = fn(&str) -> (Box<dyn Display>, Box<dyn Display>);
+
+const DAYS: [SolverFunction; 18] = [
     day1::solve,
     day2::solve,
     day3::solve,

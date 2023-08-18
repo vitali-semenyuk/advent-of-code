@@ -8,7 +8,7 @@ struct Point {
 
 impl From<&str> for Point {
     fn from(s: &str) -> Self {
-        let (x, y) = s.split_once(",").unwrap();
+        let (x, y) = s.split_once(',').unwrap();
         let x = x.parse().unwrap();
         let y = y.parse().unwrap();
 
@@ -60,7 +60,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 fn solve_first_part(input: &str) -> u32 {
     let pathes: Vec<Vec<_>> = input
         .lines()
-        .map(|l| l.split(" -> ").map(|p| Point::from(p)).collect())
+        .map(|l| l.split(" -> ").map(Point::from).collect())
         .collect();
     let mut grid = Grid(vec![vec![Space::Void; 550]; 500]);
 
@@ -81,19 +81,19 @@ fn solve_first_part(input: &str) -> u32 {
             }
 
             if grid.0[y + 1][x] == Space::Void {
-                y = y + 1;
+                y += 1;
             } else if grid.0[y + 1][x - 1] == Space::Void {
-                y = y + 1;
-                x = x - 1;
+                y += 1;
+                x -= 1;
             } else if grid.0[y + 1][x + 1] == Space::Void {
-                y = y + 1;
-                x = x + 1;
+                y += 1;
+                x += 1;
             } else {
                 break;
             }
         }
         grid.0[y][x] = Space::Sand;
-        n = n + 1;
+        n += 1;
     }
 
     n
@@ -102,7 +102,7 @@ fn solve_first_part(input: &str) -> u32 {
 fn solve_second_part(input: &str) -> u32 {
     let pathes: Vec<Vec<_>> = input
         .lines()
-        .map(|l| l.split(" -> ").map(|p| Point::from(p)).collect())
+        .map(|l| l.split(" -> ").map(Point::from).collect())
         .collect();
     let max_y = pathes
         .iter()
@@ -129,13 +129,13 @@ fn solve_second_part(input: &str) -> u32 {
             }
 
             if grid.0[y + 1][x] == Space::Void {
-                y = y + 1;
+                y += 1;
             } else if grid.0[y + 1][x - 1] == Space::Void {
-                y = y + 1;
-                x = x - 1;
+                y += 1;
+                x -= 1;
             } else if grid.0[y + 1][x + 1] == Space::Void {
-                y = y + 1;
-                x = x + 1;
+                y += 1;
+                x += 1;
             } else {
                 if y == 0 {
                     break 'outer;
@@ -144,7 +144,7 @@ fn solve_second_part(input: &str) -> u32 {
             }
         }
         grid.0[y][x] = Space::Sand;
-        n = n + 1;
+        n += 1;
     }
 
     dbg!(grid);
@@ -167,12 +167,11 @@ fn draw_path(grid: &mut Grid, path: (&Point, &Point)) {
 }
 
 fn range(a: usize, b: usize) -> impl Iterator<Item = usize> {
-    let x: Box<dyn Iterator<Item = usize>>;
-    if b > a {
-        x = Box::new(a..=b)
+    let x: Box<dyn Iterator<Item = usize>> = if b > a {
+        Box::new(a..=b)
     } else {
-        x = Box::new((b..=a).rev())
-    }
+        Box::new((b..=a).rev())
+    };
     x
 }
 

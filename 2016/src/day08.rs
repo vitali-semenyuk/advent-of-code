@@ -13,7 +13,7 @@ impl From<&str> for Instruction {
 
         match parts.next().unwrap() {
             "rect" => {
-                let (a, b) = parts.next().unwrap().split_once("x").unwrap();
+                let (a, b) = parts.next().unwrap().split_once('x').unwrap();
                 Instruction::TurnOn(a.parse().unwrap(), b.parse().unwrap())
             }
             "rotate" => {
@@ -23,7 +23,7 @@ impl From<&str> for Instruction {
                     _ => panic!("Unexpected value"),
                 };
                 let a = parts.next().unwrap();
-                let (_, a) = a.split_once("=").unwrap();
+                let (_, a) = a.split_once('=').unwrap();
                 let b = parts.nth(1).unwrap();
                 class(a.parse().unwrap(), b.parse().unwrap())
             }
@@ -70,16 +70,16 @@ impl Screen {
     }
 
     fn execute_instruction(&mut self, instruction: &Instruction) {
-        match instruction {
-            &Instruction::TurnOn(a, b) => {
+        match *instruction {
+            Instruction::TurnOn(a, b) => {
                 for x in 0..a {
                     for y in 0..b {
                         self.area[y][x] = true
                     }
                 }
             }
-            &Instruction::RotateRow(a, b) => self.area[a].rotate_right(b),
-            &Instruction::RotateColumn(a, b) => {
+            Instruction::RotateRow(a, b) => self.area[a].rotate_right(b),
+            Instruction::RotateColumn(a, b) => {
                 let mut column = self.area.iter().map(|row| row[a]).collect::<Vec<_>>();
                 column.rotate_right(b);
 

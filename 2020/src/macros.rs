@@ -19,6 +19,8 @@ macro_rules! check_answers {
     };
 }
 
+#[doc(hidden)]
+#[macro_export]
 macro_rules! read_task_input {
     () => {{
         let (_, current_file) = file!().rsplit_once("/").unwrap();

@@ -22,6 +22,9 @@ jobs:
     - name: Build
       run: cargo build --verbose
       working-directory: ${{ matrix.dir }}
+    - name: Run linter
+      run: cargo clippy -- -D warnings
+      working-directory: ${{ matrix.dir }}
     - name: Run tests
       run: cargo test --verbose
       working-directory: ${{ matrix.dir }}

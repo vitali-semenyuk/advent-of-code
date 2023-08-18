@@ -26,11 +26,11 @@ impl From<&str> for Sensor {
         let x = parts.nth(2).unwrap();
         let y = parts.next().unwrap();
 
-        let x = x.trim_end_matches(",");
-        let (_, x) = x.split_once("=").unwrap();
+        let x = x.trim_end_matches(',');
+        let (_, x) = x.split_once('=').unwrap();
         let x = x.parse().unwrap();
-        let y = y.trim_end_matches(":");
-        let (_, y) = y.split_once("=").unwrap();
+        let y = y.trim_end_matches(':');
+        let (_, y) = y.split_once('=').unwrap();
         let y = y.parse().unwrap();
 
         let position = Point { x, y };
@@ -38,11 +38,11 @@ impl From<&str> for Sensor {
         let x = parts.nth(4).unwrap();
         let y = parts.next().unwrap();
 
-        let x = x.trim_end_matches(",");
-        let (_, x) = x.split_once("=").unwrap();
+        let x = x.trim_end_matches(',');
+        let (_, x) = x.split_once('=').unwrap();
         let x = x.parse().unwrap();
-        let y = y.trim_end_matches(":");
-        let (_, y) = y.split_once("=").unwrap();
+        let y = y.trim_end_matches(':');
+        let (_, y) = y.split_once('=').unwrap();
         let y = y.parse().unwrap();
 
         let beacon = Point { x, y };
@@ -141,7 +141,7 @@ fn solve_second_part_inner(input: &str, r: i32) -> i64 {
         .iter()
         .filter(|p| p.x >= 0 && p.x <= r && p.y >= 0 && p.y <= r)
     {
-        if sensors.iter().all(|s| s.distance_to(&point) > s.radius) {
+        if sensors.iter().all(|s| s.distance_to(point) > s.radius) {
             return point.x as i64 * 4000000 + point.y as i64;
         }
     }

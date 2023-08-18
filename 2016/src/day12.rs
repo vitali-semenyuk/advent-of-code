@@ -159,14 +159,14 @@ impl Computer {
     fn get_register(&self, register: &Register) -> Integer {
         *self
             .registers
-            .get(&register)
+            .get(register)
             .expect("Uninitialized register")
     }
 
     fn set_register(&mut self, register: &Register, value: Integer) {
         let register = self
             .registers
-            .get_mut(&register)
+            .get_mut(register)
             .expect("Uninitialized register");
 
         *register = value;

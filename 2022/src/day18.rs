@@ -9,7 +9,7 @@ struct Cube {
 
 impl From<&str> for Cube {
     fn from(string: &str) -> Self {
-        let mut parts = string.split(",");
+        let mut parts = string.split(',');
 
         Cube {
             x: parts.next().unwrap().parse().unwrap(),
@@ -48,13 +48,12 @@ fn solve_first_part(input: &str) -> usize {
     cubes.len() * 6 - res
 }
 
-fn solve_second_part(input: &str) -> i32 {
+fn solve_second_part(_input: &str) -> i32 {
     42
 }
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
 
     use super::*;
 

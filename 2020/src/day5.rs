@@ -1,22 +1,26 @@
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+use std::fmt::Display;
+
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
-    input.lines().map(|seat| parse_seat(seat)).max().unwrap() as i64
+fn solve_first_part(input: &str) -> u16 {
+    input.lines().map(parse_seat).max().unwrap()
 }
 
-fn solve_second_part(input: &str) -> i64 {
-    let seats: Vec<_> = input.lines().map(|seat| parse_seat(seat)).collect();
+fn solve_second_part(input: &str) -> u16 {
+    let seats: Vec<_> = input.lines().map(parse_seat).collect();
     (0..128 * 8)
-        .filter(|seat| {
+        .find(|seat| {
             seat > &0
                 && !seats.contains(seat)
                 && seats.contains(&(seat - 1))
                 && seats.contains(&(seat + 1))
         })
-        .next()
-        .unwrap() as i64
+        .unwrap()
 }
 
 fn parse_seat(seat: &str) -> u16 {

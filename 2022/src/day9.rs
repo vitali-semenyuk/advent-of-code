@@ -10,7 +10,7 @@ enum Motion {
 
 impl From<&str> for Motion {
     fn from(string: &str) -> Self {
-        let (dir, len) = string.split_once(" ").unwrap();
+        let (dir, len) = string.split_once(' ').unwrap();
         let len = len.parse().unwrap();
 
         match dir {

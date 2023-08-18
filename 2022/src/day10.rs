@@ -11,7 +11,7 @@ impl From<&str> for Instruction {
         if string == "noop" {
             Instruction::Noop
         } else {
-            let (_, number) = string.split_once(" ").unwrap();
+            let (_, number) = string.split_once(' ').unwrap();
             let number = number.parse().unwrap();
             Instruction::AddX(number)
         }
@@ -28,18 +28,18 @@ impl Instruction {
 }
 
 #[derive(Debug)]
-struct CPU {
+struct Cpu {
     instructions: Vec<Instruction>,
     register: i32,
     ip: usize,
 }
 
-impl Iterator for CPU {
+impl Iterator for Cpu {
     type Item = i32;
 
     fn next(&mut self) -> Option<Self::Item> {
         let instruction = self.instructions.get(self.ip / 2);
-        instruction.and_then(|instr| {
+        instruction.map(|instr| {
             let res = self.register;
 
             self.ip += match instr {
@@ -50,7 +50,7 @@ impl Iterator for CPU {
                 self.register += instr.process()
             }
 
-            Some(res)
+            res
         })
     }
 }
@@ -64,7 +64,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 
 fn solve_first_part(input: &str) -> i32 {
     let instructions = input.lines().map(Instruction::from).collect();
-    let mut cpu = CPU {
+    let mut cpu = Cpu {
         instructions,
         register: 1,
         ip: 0,
@@ -83,7 +83,7 @@ fn solve_first_part(input: &str) -> i32 {
 
 fn solve_second_part(input: &str) -> String {
     let instructions = input.lines().map(Instruction::from).collect();
-    let cpu = CPU {
+    let cpu = Cpu {
         instructions,
         register: 1,
         ip: 0,
@@ -281,11 +281,14 @@ noop";
         assert_eq!(answer, solve_second_part(INPUT))
     }
 
-    check_answers!(14560, "####.#..#.###..#..#.####.###..#..#.####.
+    check_answers!(
+        14560,
+        "####.#..#.###..#..#.####.###..#..#.####.
 #....#.#..#..#.#..#.#....#..#.#..#....#.
 ###..##...#..#.####.###..#..#.#..#...#..
 #....#.#..###..#..#.#....###..#..#..#...
 #....#.#..#.#..#..#.#....#....#..#.#....
 ####.#..#.#..#.#..#.####.#.....##..####.
-");
+"
+    );
 }

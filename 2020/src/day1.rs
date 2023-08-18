@@ -1,5 +1,10 @@
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+use std::fmt::Display;
+
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
 fn solve_first_part(input: &str) -> i64 {

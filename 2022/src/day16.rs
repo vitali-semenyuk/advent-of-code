@@ -1,6 +1,6 @@
-use std::{collections::{HashMap, hash_map::DefaultHasher}, fmt::Display};
-use std::hash::{Hash, Hasher};
+use std::fmt::Display;
 
+#[allow(unused)]
 #[derive(Debug)]
 struct Valve {
     name: String,
@@ -10,12 +10,12 @@ struct Valve {
 
 impl From<&str> for Valve {
     fn from(string: &str) -> Self {
-        let (valve, tunnels) = string.split_once(";").unwrap();
+        let (valve, tunnels) = string.split_once(';').unwrap();
         let mut parts = valve.split_whitespace();
         parts.next();
         let name = parts.next().unwrap().to_string();
-        let rate = parts.skip(2).next().unwrap();
-        let rate = rate.split("=").skip(1).next().unwrap().parse().unwrap();
+        let rate = parts.nth(2).unwrap();
+        let rate = rate.split('=').nth(1).unwrap().parse().unwrap();
         let tunnels: Vec<_> = tunnels
             .split_whitespace()
             .skip(4)
@@ -37,7 +37,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     )
 }
 
-fn solve_first_part(input: &str) -> u32 {
+fn solve_first_part(_input: &str) -> u32 {
     // let valves: HashMap<_, _> = input
     //     .lines()
     //     .map(|l| {
@@ -52,7 +52,7 @@ fn solve_first_part(input: &str) -> u32 {
     0
 }
 
-fn solve_second_part(input: &str) -> i32 {
+fn solve_second_part(_input: &str) -> i32 {
     42
 }
 
@@ -104,7 +104,6 @@ fn solve_second_part(input: &str) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
 
     use super::*;
 

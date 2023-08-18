@@ -23,9 +23,8 @@ impl From<&str> for Monkey {
         let items = lines
             .next()
             .unwrap()
-            .split(":")
-            .skip(1)
-            .next()
+            .split(':')
+            .nth(1)
             .unwrap()
             .trim()
             .split(", ")

@@ -8,7 +8,7 @@ struct Range {
 
 impl From<&str> for Range {
     fn from(string: &str) -> Self {
-        let (begin, end) = string.split_once("-").unwrap();
+        let (begin, end) = string.split_once('-').unwrap();
         let begin = begin.parse().unwrap();
         let end = end.parse().unwrap();
 
@@ -27,7 +27,7 @@ fn solve_first_part(input: &str) -> usize {
     input
         .lines()
         .map(|l| {
-            let (a, b) = l.split_once(",").unwrap();
+            let (a, b) = l.split_once(',').unwrap();
             (Range::from(a), Range::from(b))
         })
         .filter(|(a, b)| {
@@ -40,7 +40,7 @@ fn solve_second_part(input: &str) -> usize {
     input
         .lines()
         .map(|l| {
-            let (a, b) = l.split_once(",").unwrap();
+            let (a, b) = l.split_once(',').unwrap();
             (Range::from(a), Range::from(b))
         })
         .filter(|(a, b)| (a.begin <= b.end && b.begin <= a.end))

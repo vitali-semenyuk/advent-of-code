@@ -24,7 +24,7 @@ fn solve_first_part(input: &str) -> u32 {
     input
         .lines()
         .map(|l| {
-            let (opponent, me) = l.split_once(" ").unwrap();
+            let (opponent, me) = l.split_once(' ').unwrap();
             score_round((parse(me), parse(opponent)))
         })
         .sum()
@@ -34,7 +34,7 @@ fn solve_second_part(input: &str) -> u32 {
     input
         .lines()
         .map(|l| {
-            let (opponent, result) = l.split_once(" ").unwrap();
+            let (opponent, result) = l.split_once(' ').unwrap();
             let opponent = parse(opponent);
             let result = parse_result(result);
             let me = find_shape(opponent, result);

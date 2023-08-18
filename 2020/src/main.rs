@@ -1,4 +1,4 @@
-use std::{env, fs};
+use std::{env, fs, fmt::Display};
 
 #[macro_use]
 mod macros;
@@ -11,7 +11,9 @@ mod day5;
 mod day6;
 mod day7;
 
-const DAYS: [fn(&str) -> (i64, i64); 7] = [
+type SolverFunction = fn(&str) -> (Box<dyn Display>, Box<dyn Display>);
+
+const DAYS: [SolverFunction; 7] = [
     day1::solve,
     day2::solve,
     day3::solve,

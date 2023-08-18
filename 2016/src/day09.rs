@@ -5,7 +5,7 @@ struct Marker(usize, usize);
 
 impl From<String> for Marker {
     fn from(value: String) -> Self {
-        let (range, count) = value.split_once("x").unwrap();
+        let (range, count) = value.split_once('x').unwrap();
         Self(range.parse().unwrap(), count.parse().unwrap())
     }
 }
@@ -40,12 +40,12 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> usize {
-    let input = input.strip_suffix("\n").unwrap();
+    let input = input.strip_suffix('\n').unwrap();
     decompress(input).len()
 }
 
 fn solve_second_part(input: &str) -> usize {
-    let input = input.strip_suffix("\n").unwrap();
+    let input = input.strip_suffix('\n').unwrap();
     decompress_v2_len(input)
 }
 

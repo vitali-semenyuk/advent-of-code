@@ -1,4 +1,7 @@
-use std::{collections::{HashSet, VecDeque}, fmt::Display};
+use std::{
+    collections::{HashSet, VecDeque},
+    fmt::Display,
+};
 
 type Vertex = (usize, usize);
 
@@ -50,7 +53,7 @@ fn bfs(field: &Vec<Vec<char>>, start: Vertex) -> i32 {
             return distances[vy][vx];
         }
 
-        for v in get_adjacent(&field, vertex) {
+        for v in get_adjacent(field, vertex) {
             if visited.contains(&v) {
                 continue;
             };
@@ -61,10 +64,10 @@ fn bfs(field: &Vec<Vec<char>>, start: Vertex) -> i32 {
         }
     }
 
-    return 999999999;
+    999999999
 }
 
-fn get_adjacent(field: &Vec<Vec<char>>, (vx, vy): Vertex) -> Vec<Vertex> {
+fn get_adjacent(field: &[Vec<char>], (vx, vy): Vertex) -> Vec<Vertex> {
     let mut result = Vec::new();
 
     let current = field[vy][vx];

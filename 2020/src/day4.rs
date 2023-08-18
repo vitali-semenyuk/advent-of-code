@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, fmt::Display};
 
 #[derive(Debug)]
 struct Passport {
@@ -30,7 +30,7 @@ impl Passport {
         } else if self.height.ends_with("in") {
             self.height.len() == 4 && self.height[..2].parse::<u8>().is_ok()
         } else {
-             false
+            false
         };
 
         (1920..=2002).contains(&self.birth_year)
@@ -38,7 +38,7 @@ impl Passport {
             && (2020..=2030).contains(&self.expiration_year)
             && is_height_valid
             && self.hair_color.len() == 7
-            && self.hair_color.starts_with("#")
+            && self.hair_color.starts_with('#')
             && self.hair_color[1..].chars().all(|c| c.is_ascii_hexdigit())
             && EYE_COLORS.contains(&self.eye_color.as_str())
             && self.passport_id.len() == 9
@@ -56,7 +56,7 @@ impl TryFrom<&str> for Passport {
         let fields_map = value
             .split_whitespace()
             .fold(HashMap::new(), |mut fields, data| {
-                let (field, value) = data.split_once(":").unwrap();
+                let (field, value) = data.split_once(':').unwrap();
                 fields.insert(field, value);
                 fields
             });
@@ -99,25 +99,28 @@ impl TryFrom<&str> for Passport {
     }
 }
 
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
+fn solve_first_part(input: &str) -> usize {
     input
         .split("\n\n")
-        .map(|line| Passport::try_from(line))
+        .map(Passport::try_from)
         .filter_map(|r| r.ok())
-        .count() as i64
+        .count()
 }
 
-fn solve_second_part(input: &str) -> i64 {
+fn solve_second_part(input: &str) -> usize {
     input
         .split("\n\n")
-        .map(|line| Passport::try_from(line))
+        .map(Passport::try_from)
         .filter_map(|r| r.ok())
         .filter(|p| p.is_valid())
-        .count() as i64
+        .count()
 }
 
 #[cfg(test)]

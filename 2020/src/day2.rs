@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 #[derive(Debug)]
 struct Password {
     password: String,
@@ -22,9 +24,9 @@ impl Password {
 
 impl From<&str> for Password {
     fn from(s: &str) -> Self {
-        let (policy, password) = s.split_once(":").unwrap();
-        let (range, rule) = policy.split_once(" ").unwrap();
-        let (min_length, max_length) = range.split_once("-").unwrap();
+        let (policy, password) = s.split_once(':').unwrap();
+        let (range, rule) = policy.split_once(' ').unwrap();
+        let (min_length, max_length) = range.split_once('-').unwrap();
         let password = password.trim().to_string();
         let char = rule.chars().next().unwrap();
         let min_length: u32 = min_length.parse().unwrap();
@@ -39,24 +41,27 @@ impl From<&str> for Password {
     }
 }
 
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
+fn solve_first_part(input: &str) -> usize {
     input
         .lines()
-        .map(|l| Password::from(l))
+        .map(Password::from)
         .filter(|p| p.is_valid_legacy())
-        .count() as i64
+        .count()
 }
 
-fn solve_second_part(input: &str) -> i64 {
+fn solve_second_part(input: &str) -> usize {
     input
         .lines()
-        .map(|l| Password::from(l))
+        .map(Password::from)
         .filter(|p| p.is_valid())
-        .count() as i64
+        .count()
 }
 
 #[cfg(test)]

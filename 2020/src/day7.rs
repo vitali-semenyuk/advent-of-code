@@ -1,15 +1,18 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, fmt::Display};
 
-pub fn solve(input: &str) -> (i64, i64) {
-    (solve_first_part(input), solve_second_part(input))
+pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
+    (
+        Box::new(solve_first_part(input)),
+        Box::new(solve_second_part(input)),
+    )
 }
 
-fn solve_first_part(input: &str) -> i64 {
+fn solve_first_part(input: &str) -> usize {
     let bags = input.lines().fold(HashMap::new(), |mut hash, line| {
         let (bag, right) = line.split_once(" bags contain ").unwrap();
         let content: Vec<_> = right
             .split(", ")
-            .map(|c| c.split_once(" ").unwrap().1.rsplit_once(" ").unwrap().0)
+            .map(|c| c.split_once(' ').unwrap().1.rsplit_once(' ').unwrap().0)
             .filter(|c| *c != "other")
             .collect();
         hash.insert(bag, content);
@@ -19,24 +22,24 @@ fn solve_first_part(input: &str) -> i64 {
     bags.values()
         .map(|b| count(&bags, b, "shiny gold"))
         .filter(|c| *c > 0)
-        .count() as i64
+        .count()
 }
 
-fn solve_second_part(input: &str) -> i64 {
+fn solve_second_part(_input: &str) -> i64 {
     126
 }
 
 fn count(hash: &HashMap<&str, Vec<&str>>, bags: &[&str], bag: &str) -> u32 {
     let c = if bags.contains(&bag) { 1 } else { 0 };
     bags.iter()
-        .map(|b| count(&hash, hash.get(b).unwrap(), bag))
+        .map(|b| count(hash, hash.get(b).unwrap(), bag))
         .sum::<u32>()
         + c
 }
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
+    // use std::fs;
 
     use super::*;
 

@@ -1,5 +1,5 @@
 use std::{
-    collections::{HashMap, HashSet},
+    collections::{hash_map::Entry, HashMap, HashSet},
     fmt::Display,
 };
 
@@ -154,13 +154,13 @@ impl Factory {
     }
 
     fn set_value(&mut self, bot_id: u32, value: u32) {
-        if self.bots.contains_key(&bot_id) {
-            let bot = self.bots.get_mut(&bot_id).unwrap();
-            bot.add_input(value);
-        } else {
+        if let Entry::Vacant(e) = self.bots.entry(bot_id) {
             let mut bot = Bot::new();
             bot.add_input(value);
-            self.bots.insert(bot_id, bot);
+            e.insert(bot);
+        } else {
+            let bot = self.bots.get_mut(&bot_id).unwrap();
+            bot.add_input(value);
         };
     }
 }

@@ -43,7 +43,7 @@ fn solve_first_part(input: &str) -> String {
         stacks.push(stack);
     }
 
-    let instructions: Vec<_> = instructions.lines().map(|l| Instruction::from(l)).collect();
+    let instructions: Vec<_> = instructions.lines().map(Instruction::from).collect();
 
     for instruction in instructions {
         for _ in 0..instruction.count {
@@ -73,7 +73,7 @@ fn solve_second_part(input: &str) -> String {
         stacks.push(stack);
     }
 
-    let instructions: Vec<_> = instructions.lines().map(|l| Instruction::from(l)).collect();
+    let instructions: Vec<_> = instructions.lines().map(Instruction::from).collect();
 
     for instruction in instructions {
         let source = &mut stacks[instruction.from - 1];
