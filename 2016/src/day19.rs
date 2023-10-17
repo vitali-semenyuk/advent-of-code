@@ -1,4 +1,4 @@
-use std::{collections::VecDeque, fmt::Display};
+use std::fmt::Display;
 
 pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     (
@@ -7,53 +7,25 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     )
 }
 
-fn solve_first_part(input: &str) -> i32 {
-    let number = input.strip_suffix('\n').unwrap().parse().unwrap();
-    let mut players = (1..=number).collect::<VecDeque<_>>();
+fn solve_first_part(input: &str) -> u32 {
+    let number = input.strip_suffix('\n').unwrap().parse::<u32>().unwrap();
 
-    loop {
-        let len = players.len();
-        let mut filtered = players
-            .into_iter()
-            .enumerate()
-            .filter(|(i, _)| i % 2 == 0)
-            .map(|(_, n)| n)
-            .collect::<VecDeque<_>>();
-        if len % 2 != 0 {
-            filtered.pop_front();
-        }
-        players = filtered;
-
-        if players.len() == 1 {
-            break;
-        }
-    }
-
-    players.pop_back().unwrap()
+    let l = number - 2_u32.pow(number.ilog2());
+    l * 2 + 1
 }
 
 fn solve_second_part(input: &str) -> i32 {
-    let number = input.strip_suffix('\n').unwrap().parse().unwrap();
-    let mut range = (1..=number).collect::<Vec<_>>();
-    let mut current_index = 0;
+    let number = input.strip_suffix('\n').unwrap().parse::<i32>().unwrap();
 
-    loop {
-        let size = range.len();
-        if size == 1 {
-            break;
-        }
+    let pow = 3_i32.pow(number.ilog(3));
+    let rest = number - pow;
+    let result = rest + (rest - pow).max(0);
 
-        let opposite_index = (current_index + size / 2) % size;
-        range.remove(opposite_index);
-
-        if opposite_index > current_index {
-            current_index = (current_index + 1) % (size - 1);
-        } else if current_index == size - 1 {
-            current_index = 0
-        }
+    if result > 0 {
+        result
+    } else {
+        number
     }
-
-    range.pop().unwrap()
 }
 
 #[cfg(test)]
