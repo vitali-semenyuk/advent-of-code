@@ -49,7 +49,7 @@ fn parse_ranges(input: &str) -> Vec<IPRange> {
         .map(IPRange::from)
         .fold(Vec::new(), |acc, range| {
             let (affected, mut unaffected): (Vec<_>, Vec<_>) =
-                acc.into_iter().partition(|rng| range.intersects(&rng));
+                acc.into_iter().partition(|rng| range.intersects(rng));
 
             let new_range = merge_ranges(&affected, &range);
 
