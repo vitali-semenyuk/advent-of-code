@@ -62,6 +62,8 @@ enum Instruction {
     Decrement(Register),
     Jump(Value, Value),
     Toggle(Register),
+    Multiply(Register, Value),
+    Noop,
 }
 
 impl FromStr for Instruction {
@@ -105,11 +107,8 @@ impl FromStr for Instruction {
                 let y = parts
                     .next()
                     .ok_or(ParseError("Expected argument".to_string()))?;
-                let y = y
-                    .parse()
-                    .or(Err(ParseError(format!("Invalid numeric literal: '{y}'"))))?;
 
-                Ok(Self::Jump(Value::from_str(x)?, y))
+                Ok(Self::Jump(Value::from_str(x)?, Value::from_str(y)?))
             }
             "tgl" => {
                 let x = parts
@@ -117,6 +116,17 @@ impl FromStr for Instruction {
                     .ok_or(ParseError("Expected argument".to_string()))?;
                 Ok(Self::Toggle(Register::from_str(x)?))
             }
+            "mul" => {
+                let x = parts
+                    .next()
+                    .ok_or(ParseError("Expected argument".to_string()))?;
+                let y = parts
+                    .next()
+                    .ok_or(ParseError("Expected argument".to_string()))?;
+
+                Ok(Self::Multiply(Register::from_str(x)?, Value::from_str(y)?))
+            }
+            "nop" => Ok(Self::Noop),
             i => Err(ParseError(format!("Unknown instruction: '{i}'"))),
         }
     }
@@ -149,8 +159,6 @@ impl Computer {
                 break;
             }
 
-            dbg!(instruction.unwrap());
-
             match instruction.unwrap() {
                 Instruction::Copy(x, y) => match y {
                     Value::Register(r) => self.set_register(r, self.get_value(x)),
@@ -179,11 +187,16 @@ impl Computer {
                                 Instruction::Decrement(x) => Instruction::Increment(x.clone()),
                                 Instruction::Jump(x, y) => Instruction::Copy(x.clone(), y.clone()),
                                 Instruction::Toggle(x) => Instruction::Increment(x.clone()),
+                                instr => instr.clone(),
                             };
                             instructions[target_address] = new_instruction;
                         }
                     }
                 }
+                Instruction::Multiply(x, y) => {
+                    self.set_register(x, self.get_register(x) * self.get_value(y))
+                }
+                Instruction::Noop => {}
             }
 
             self.ip += 1;
@@ -277,13 +290,12 @@ dec a
         assert_eq!(answer, solve_first_part(INPUT))
     }
 
-    #[ignore]
     #[test]
     fn test_second_part() {
-        let answer = 42;
+        let answer = 3;
 
         assert_eq!(answer, solve_second_part(INPUT))
     }
 
-    // check_answers!(11514, 42);
+    check_answers!(11514, 479008074);
 }
