@@ -1,4 +1,5 @@
 use std::fmt::Display;
+use std::fmt::Write;
 
 pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     (
@@ -46,10 +47,10 @@ fn look_and_say(string: &str) -> String {
 
     groups.push(current_group);
 
-    groups
-        .iter()
-        .map(|group| format!("{}{}", group.len(), group.first().unwrap()))
-        .collect()
+    groups.iter().fold(String::new(), |mut str, group| {
+        let _ = write!(str, "{}{}", group.len(), group.first().unwrap());
+        str
+    })
 }
 
 #[cfg(test)]

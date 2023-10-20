@@ -68,7 +68,7 @@ fn simulate_all(discs: &[Disc]) -> u32 {
     let mut dt = 0;
 
     loop {
-        if simulate(&discs, dt) {
+        if simulate(discs, dt) {
             break;
         }
         dt += 1;

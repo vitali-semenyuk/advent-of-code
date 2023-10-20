@@ -55,13 +55,9 @@ impl Floor {
                 &Tile::Safe
             }
             .is_trap();
-            let center = current_row.get(i).unwrap().is_trap();
             let right = current_row.get(i + 1).unwrap_or(&Tile::Safe).is_trap();
 
-            let is_trap = (left && center && !right)
-                || (left && !center && !right)
-                || (!left && center && right)
-                || (!left && !center && right);
+            let is_trap = !left && right || left && !right;
             let tile = if is_trap { Tile::Trap } else { Tile::Safe };
 
             next_row.push(tile)
