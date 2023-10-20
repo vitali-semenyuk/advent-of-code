@@ -28,6 +28,7 @@ mod day22;
 mod day23;
 mod day24;
 mod day25;
+mod shared;
 
 type SolverFunction = fn(&str) -> (Box<dyn Display>, Box<dyn Display>);
 
