@@ -98,12 +98,10 @@ fn parse_grid(grid: &str) -> (Vec<Number>, Vec<Symbol>) {
                         symbols.push(Symbol::new(char, x, y))
                     }
                 }
-            } else {
-                if char.is_ascii_digit() {
-                    current_number = Some(Number::new(char, x, y))
-                } else if char != '.' {
-                    symbols.push(Symbol::new(char, x, y))
-                }
+            } else if char.is_ascii_digit() {
+                current_number = Some(Number::new(char, x, y))
+            } else if char != '.' {
+                symbols.push(Symbol::new(char, x, y))
             }
         }
     }
