@@ -94,7 +94,7 @@ impl Map {
             }
         }
 
-        periods.into_iter().reduce(|a, b| lcm(a, b)).unwrap()
+        periods.into_iter().reduce(lcm).unwrap()
     }
 }
 
