@@ -19,13 +19,26 @@ fn solve_second_part(_input: &str) -> i32 {
 mod tests {
     use super::*;
 
-    const INPUT: &str = "
+    const INPUT: &str = "#.##..##.
+..#.##.#.
+##......#
+##......#
+..#.##.#.
+..##..##.
+#.#.##.#.
+
+#...##..#
+#....#..#
+..##..###
+#####.##.
+#####.##.
+..##..###
+#....#..#
 ";
 
-    #[ignore]
     #[test]
     fn test_first_part() {
-        let answer = 42;
+        let answer = 405;
 
         assert_eq!(answer, solve_first_part(INPUT))
     }
