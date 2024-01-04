@@ -18,7 +18,10 @@ jobs:
       matrix: { dir: [ "2015", "2016", "2017", "2018", "2019", "2020", "2022", "2023" ] }
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+        token: ${{ secrets.PAT_TOKEN }}
     - name: Build
       run: cargo build --verbose
       working-directory: ${{ matrix.dir }}
