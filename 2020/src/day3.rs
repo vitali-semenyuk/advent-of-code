@@ -41,8 +41,6 @@ fn count_trees(input: &str, steps: (usize, usize)) -> u64 {
 }
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "..##.......

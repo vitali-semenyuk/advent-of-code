@@ -66,8 +66,6 @@ fn solve_second_part(input: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "1-3 a: abcde

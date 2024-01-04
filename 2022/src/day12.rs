@@ -107,8 +107,6 @@ fn get_elevation(current: char, destination: char) -> i8 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "Sabqponm

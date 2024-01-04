@@ -8,12 +8,12 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> String {
-    let initial_state = input.strip_suffix('\n').unwrap_or(input);
+    let initial_state = input.trim_end();
     fill_disk(272, initial_state)
 }
 
 fn solve_second_part(input: &str) -> String {
-    let initial_state = input.strip_suffix('\n').unwrap_or(input);
+    let initial_state = input.trim_end();
     fill_disk(35651584, initial_state)
 }
 

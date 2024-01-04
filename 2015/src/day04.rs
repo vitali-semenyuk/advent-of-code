@@ -8,12 +8,12 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> u32 {
-    let key = input.strip_suffix('\n').unwrap_or(input);
+    let key = input.trim_end();
     mine(key, 5).expect("Mining unsuccessful")
 }
 
 fn solve_second_part(input: &str) -> u32 {
-    let key = input.strip_suffix('\n').unwrap_or(input);
+    let key = input.trim_end();
     mine(key, 6).expect("Mining unsuccessful")
 }
 

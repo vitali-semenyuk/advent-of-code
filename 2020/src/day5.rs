@@ -55,8 +55,6 @@ fn parse_seat(seat: &str) -> u16 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "BFFFBBFRRR

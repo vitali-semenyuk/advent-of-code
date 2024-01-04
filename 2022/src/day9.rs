@@ -143,8 +143,6 @@ fn solve_second_part(input: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "R 4

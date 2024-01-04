@@ -177,8 +177,6 @@ fn range(a: usize, b: usize) -> impl Iterator<Item = usize> {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "498,4 -> 498,6 -> 496,6

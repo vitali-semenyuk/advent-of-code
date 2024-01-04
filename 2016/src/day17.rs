@@ -32,14 +32,14 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> String {
-    let passcode = input.strip_suffix('\n').unwrap_or(input);
+    let passcode = input.trim_end();
     let path = bfs((3, 3), passcode, true);
 
     path.unwrap()
 }
 
 fn solve_second_part(input: &str) -> usize {
-    let passcode = input.strip_suffix('\n').unwrap_or(input);
+    let passcode = input.trim_end();
     let path = bfs((3, 3), passcode, false);
 
     path.unwrap().len()

@@ -47,8 +47,6 @@ fn get_priority(c: char) -> u16 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "vJrwpWtwJgWrhcsFMMfFFhFp

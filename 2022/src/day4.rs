@@ -49,8 +49,6 @@ fn solve_second_part(input: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "2-4,6-8

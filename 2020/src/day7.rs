@@ -39,8 +39,6 @@ fn count(hash: &HashMap<&str, Vec<&str>>, bags: &[&str], bag: &str) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    // use std::fs;
-
     use super::*;
 
     const INPUT: &str = "light red bags contain 1 bright white bag, 2 muted yellow bags.

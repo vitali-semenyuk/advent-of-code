@@ -9,13 +9,13 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> usize {
-    let input = input.strip_suffix('\n').unwrap();
+    let input = input.trim_end();
 
     look_and_say_n_times(input, 40).len()
 }
 
 fn solve_second_part(input: &str) -> usize {
-    let input = input.strip_suffix('\n').unwrap();
+    let input = input.trim_end();
 
     look_and_say_n_times(input, 50).len()
 }

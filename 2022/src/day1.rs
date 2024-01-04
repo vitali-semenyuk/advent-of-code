@@ -28,8 +28,6 @@ fn get_calories(input: &str) -> impl Iterator<Item = u32> + '_ {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "1000

@@ -128,8 +128,6 @@ fn solve_second_part(input: &str) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "30373

@@ -151,8 +151,6 @@ fn solve_second_part_inner(input: &str, r: i32) -> i64 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "Sensor at x=2, y=18: closest beacon is at x=-2, y=15

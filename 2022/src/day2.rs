@@ -106,8 +106,6 @@ fn parse_result(string: &str) -> Result {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "A Y

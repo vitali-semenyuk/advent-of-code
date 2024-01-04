@@ -8,14 +8,14 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> u32 {
-    let number = input.strip_suffix('\n').unwrap().parse::<u32>().unwrap();
+    let number = input.trim_end().parse::<u32>().unwrap();
 
     let l = number - 2_u32.pow(number.ilog2());
     l * 2 + 1
 }
 
 fn solve_second_part(input: &str) -> i32 {
-    let number = input.strip_suffix('\n').unwrap().parse::<i32>().unwrap();
+    let number = input.trim_end().parse::<i32>().unwrap();
 
     let pow = 3_i32.pow(number.ilog(3));
     let rest = number - pow;

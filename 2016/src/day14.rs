@@ -69,7 +69,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> usize {
-    let salt = input.strip_suffix('\n').unwrap();
+    let salt = input.trim_end();
     let mut generator = Generator::new(salt, 0);
 
     generator.nth(63);
@@ -78,7 +78,7 @@ fn solve_first_part(input: &str) -> usize {
 }
 
 fn solve_second_part(input: &str) -> usize {
-    let salt = input.strip_suffix('\n').unwrap();
+    let salt = input.trim_end();
     let mut generator = Generator::new(salt, 2016);
 
     generator.nth(63);

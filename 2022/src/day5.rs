@@ -87,8 +87,6 @@ fn solve_second_part(input: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "    [D]

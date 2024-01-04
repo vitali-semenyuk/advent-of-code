@@ -43,8 +43,6 @@ fn solve_second_part(input: &str) -> i64 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
     const INPUT: &str = "1721

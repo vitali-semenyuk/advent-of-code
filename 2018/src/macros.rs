@@ -26,6 +26,6 @@ macro_rules! read_task_input {
         let (_, current_file) = file!().rsplit_once("/").unwrap();
         let input_file = current_file.replace(".rs", ".txt");
 
-        std::fs::read_to_string(format!("./tasks/{}", input_file)).unwrap()
+        std::fs::read_to_string(format!("../inputs/2018/{}", input_file)).unwrap()
     }};
 }

@@ -49,13 +49,13 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> String {
-    let password = input.strip_suffix('\n').unwrap();
+    let password = input.trim_end();
 
     get_next_password(password)
 }
 
 fn solve_second_part(input: &str) -> String {
-    let password = input.strip_suffix('\n').unwrap();
+    let password = input.trim_end();
 
     let new_password = get_next_password(password);
     get_next_password(&new_password)

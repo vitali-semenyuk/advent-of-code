@@ -101,7 +101,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> usize {
-    let seed = input.strip_suffix('\n').unwrap_or(input);
+    let seed = input.trim_end();
     let mut floor = Floor::new(seed);
 
     floor.fill_rows(40 - 1);
@@ -110,7 +110,7 @@ fn solve_first_part(input: &str) -> usize {
 }
 
 fn solve_second_part(input: &str) -> usize {
-    let seed = input.strip_suffix('\n').unwrap_or(input);
+    let seed = input.trim_end();
     let mut floor = Floor::new(seed);
 
     floor.fill_rows(400000 - 1);

@@ -38,7 +38,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
 }
 
 fn solve_first_part(input: &str) -> u32 {
-    let seed = input.strip_suffix('\n').unwrap().parse().unwrap();
+    let seed = input.trim_end().parse().unwrap();
     let start = Cell::new(1, 1);
     let finish = Cell::new(31, 39);
 
@@ -46,7 +46,7 @@ fn solve_first_part(input: &str) -> u32 {
 }
 
 fn solve_second_part(input: &str) -> usize {
-    let seed = input.strip_suffix('\n').unwrap().parse().unwrap();
+    let seed = input.trim_end().parse().unwrap();
     let start = Cell::new(1, 1);
 
     get_visited_count(start, 50, seed)
