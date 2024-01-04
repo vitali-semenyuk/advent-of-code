@@ -43,7 +43,7 @@ impl Iterator for Generator {
             let nonce = self.nonce;
             self.nonce += 1;
             let hash = self.compute_hash(nonce);
-            let hash= hash.to_string();
+            let hash = hash.to_string();
 
             if let Some(char) = find_triplet(&hash) {
                 let ts = char.to_string().repeat(5);

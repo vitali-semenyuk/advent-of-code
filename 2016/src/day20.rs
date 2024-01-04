@@ -91,7 +91,10 @@ mod tests {
     fn test_second_part() {
         let answer = 2_i64;
 
-        assert_eq!(answer - 9 + u32::MAX as i64, solve_second_part(INPUT) as i64)
+        assert_eq!(
+            answer - 9 + u32::MAX as i64,
+            solve_second_part(INPUT) as i64
+        )
     }
 
     #[test]

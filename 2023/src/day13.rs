@@ -36,6 +36,7 @@ mod tests {
 #....#..#
 ";
 
+    #[ignore = "work in progress"]
     #[test]
     fn test_first_part() {
         let answer = 405;

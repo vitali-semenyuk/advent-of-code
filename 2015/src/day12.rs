@@ -23,10 +23,7 @@ fn sum_all_numbers(json: &Value) -> i64 {
     match json {
         Value::Number(n) => n.as_i64().unwrap(),
         Value::Array(array) => array.iter().map(sum_all_numbers).sum(),
-        Value::Object(object) => object
-            .values()
-            .map(sum_all_numbers)
-            .sum(),
+        Value::Object(object) => object.values().map(sum_all_numbers).sum(),
         _ => 0,
     }
 }

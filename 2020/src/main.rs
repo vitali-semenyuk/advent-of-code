@@ -1,4 +1,4 @@
-use std::{env, fs, fmt::Display};
+use std::{env, fmt::Display, fs};
 
 #[macro_use]
 mod macros;
