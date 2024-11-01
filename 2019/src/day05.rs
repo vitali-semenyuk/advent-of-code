@@ -9,7 +9,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     )
 }
 
-fn solve_first_part(input: &str) -> i32 {
+fn solve_first_part(input: &str) -> i64 {
     let mut intcode = Intcode::from(input);
 
     intcode.input(1);
@@ -26,7 +26,7 @@ fn solve_first_part(input: &str) -> i32 {
     *outputs.last().expect("No output")
 }
 
-fn solve_second_part(input: &str) -> i32 {
+fn solve_second_part(input: &str) -> i64 {
     let mut intcode = Intcode::from(input);
 
     intcode.input(5);

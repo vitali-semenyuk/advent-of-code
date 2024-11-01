@@ -1,4 +1,3 @@
-use core::panic;
 use std::fmt::Display;
 
 use crate::shared::intcode::{Intcode, RuntimeError};
@@ -10,7 +9,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     )
 }
 
-fn solve_first_part(input: &str) -> i32 {
+fn solve_first_part(input: &str) -> i64 {
     generate_combinations(&vec![0, 1, 2, 3, 4], 5)
         .into_iter()
         .map(|phase_settings| run_program(input, &phase_settings))
@@ -18,7 +17,7 @@ fn solve_first_part(input: &str) -> i32 {
         .unwrap()
 }
 
-fn solve_second_part(input: &str) -> i32 {
+fn solve_second_part(input: &str) -> i64 {
     generate_combinations(&vec![5, 6, 7, 8, 9], 5)
         .into_iter()
         .map(|phase_settings| run_loop(input, &phase_settings))
@@ -26,7 +25,7 @@ fn solve_second_part(input: &str) -> i32 {
         .unwrap()
 }
 
-fn run_program(code: &str, phase_settings: &[i32]) -> i32 {
+fn run_program(code: &str, phase_settings: &[i64]) -> i64 {
     let mut amps = (0..5).map(|_| Intcode::from(code)).collect::<Vec<_>>();
     let mut signal = 0;
 
@@ -44,7 +43,7 @@ fn run_program(code: &str, phase_settings: &[i32]) -> i32 {
     signal
 }
 
-fn run_loop(code: &str, phase_settings: &[i32]) -> i32 {
+fn run_loop(code: &str, phase_settings: &[i64]) -> i64 {
     let mut amps = (0..5).map(|_| Intcode::from(code)).collect::<Vec<_>>();
 
     for (i, amp) in amps.iter_mut().enumerate() {
@@ -66,7 +65,7 @@ fn run_loop(code: &str, phase_settings: &[i32]) -> i32 {
 
             if let Err(err) = amp.run() {
                 match err {
-                    RuntimeError::MissingInput { ip: _ } => println!("Execution suspended\n"),
+                    RuntimeError::MissingInput { ip: _ } => (),
                     _ => panic!("{}", err),
                 }
             }
@@ -82,15 +81,15 @@ fn run_loop(code: &str, phase_settings: &[i32]) -> i32 {
     signal
 }
 
-fn generate_combinations(digits: &Vec<i32>, length: usize) -> Vec<Vec<i32>> {
+fn generate_combinations(digits: &Vec<i64>, length: usize) -> Vec<Vec<i64>> {
     generate_combinations_recursive(digits, length, &vec![vec![]])
 }
 
 fn generate_combinations_recursive(
-    digits: &Vec<i32>,
+    digits: &Vec<i64>,
     length: usize,
-    generated: &Vec<Vec<i32>>,
-) -> Vec<Vec<i32>> {
+    generated: &Vec<Vec<i64>>,
+) -> Vec<Vec<i64>> {
     if length == 0 {
         return generated.clone();
     }

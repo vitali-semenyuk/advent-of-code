@@ -1,5 +1,7 @@
 use std::fmt::Display;
 
+use crate::shared::intcode::Intcode;
+
 pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     (
         Box::new(solve_first_part(input)),
@@ -7,36 +9,33 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     )
 }
 
-fn solve_first_part(_input: &str) -> i32 {
-    0
+fn solve_first_part(input: &str) -> i64 {
+    let mut intcode = Intcode::from(input);
+
+    intcode.input(1);
+
+    if let Err(err) = intcode.run() {
+        panic!("{}", err);
+    }
+
+    intcode.output().expect("No output")
 }
 
-fn solve_second_part(_input: &str) -> i32 {
-    0
+fn solve_second_part(input: &str) -> i64 {
+    let mut intcode = Intcode::from(input);
+
+    intcode.input(2);
+
+    if let Err(err) = intcode.run() {
+        panic!("{}", err);
+    }
+
+    intcode.output().expect("No output")
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    const INPUT: &str = "
-";
-
-    #[ignore]
-    #[test]
-    fn test_first_part() {
-        let answer = 42;
-
-        assert_eq!(answer, solve_first_part(INPUT))
-    }
-
-    #[ignore]
-    #[test]
-    fn test_second_part() {
-        let answer = 42;
-
-        assert_eq!(answer, solve_second_part(INPUT))
-    }
-
-    // check_answers!(42, 42);
+    check_answers!(2171728567, 49815);
 }

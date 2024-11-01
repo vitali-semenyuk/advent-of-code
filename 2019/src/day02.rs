@@ -9,7 +9,7 @@ pub fn solve(input: &str) -> (Box<dyn Display>, Box<dyn Display>) {
     )
 }
 
-fn solve_first_part(input: &str) -> i32 {
+fn solve_first_part(input: &str) -> i64 {
     let mut intcode = Intcode::from(input);
 
     intcode.set(1, 12);
@@ -20,7 +20,7 @@ fn solve_first_part(input: &str) -> i32 {
     intcode.get(0).unwrap()
 }
 
-fn solve_second_part(input: &str) -> i32 {
+fn solve_second_part(input: &str) -> i64 {
     let intcode = Intcode::from(input);
 
     let (noun, verb) = brute_force_solution(&intcode, 19690720);
@@ -28,7 +28,7 @@ fn solve_second_part(input: &str) -> i32 {
     noun * 100 + verb
 }
 
-fn brute_force_solution(intcode: &Intcode, target: i32) -> (i32, i32) {
+fn brute_force_solution(intcode: &Intcode, target: i64) -> (i64, i64) {
     for noun in 0..100 {
         for verb in 0..100 {
             let mut intcode = intcode.clone();

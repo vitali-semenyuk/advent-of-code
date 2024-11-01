@@ -8,6 +8,7 @@ const OPTCODE_JUMP_IF_TRUE: i32 = 5;
 const OPTCODE_JUMP_IF_FALSE: i32 = 6;
 const OPTCODE_LESS_THAN: i32 = 7;
 const OPTCODE_EQUALS: i32 = 8;
+const OPTCODE_ADJUST_RELATIVE_BASE: i32 = 9;
 const OPTCODE_HALT: i32 = 99;
 
 #[derive(Debug)]
@@ -42,9 +43,11 @@ impl Display for RuntimeError {
     }
 }
 
+#[derive(Debug)]
 enum ParameterMode {
     Position,
     Immediate,
+    Relative,
 }
 
 #[derive(Debug)]
@@ -61,6 +64,7 @@ impl Operation {
         match flag {
             0 => Some(ParameterMode::Position),
             1 => Some(ParameterMode::Immediate),
+            2 => Some(ParameterMode::Relative),
             _ => None,
         }
     }
@@ -68,21 +72,23 @@ impl Operation {
 
 #[derive(Debug, Clone)]
 pub struct Intcode {
-    memory: Vec<i32>,
+    memory: Vec<i64>,
     ip: usize,
-    input: VecDeque<i32>,
-    output: VecDeque<i32>,
+    input: VecDeque<i64>,
+    output: VecDeque<i64>,
+    relative_base: i64,
     debug: bool,
     halted: bool,
 }
 
 impl Intcode {
-    fn new(memory: Vec<i32>) -> Self {
+    fn new(memory: Vec<i64>) -> Self {
         Self {
             memory,
             ip: 0,
             input: VecDeque::new(),
             output: VecDeque::new(),
+            relative_base: 0,
             debug: false,
             halted: false,
         }
@@ -93,20 +99,17 @@ impl Intcode {
 
         while !self.halted {
             let optcode = self.get(ip).ok_or(RuntimeError::AbruptHalt)?;
-            let operation = Operation(optcode);
+            let operation = Operation(optcode as i32);
             let optcode = operation.optcode();
 
             match optcode {
                 OPTCODE_ADD => {
                     let arg1 = self.get_argument(&operation, ip, 1)?;
                     let arg2 = self.get_argument(&operation, ip, 2)?;
-                    let arg3 = self.get_plain_argument(ip, 3)?;
+                    let arg3 = self.get_address(&operation, ip, 3)?;
 
-                    self.set(arg3 as usize, arg1 + arg2)
-                        .ok_or(RuntimeError::InvalidAddress {
-                            ip,
-                            address: arg3 as usize,
-                        })?;
+                    self.set(arg3, arg1 + arg2)
+                        .ok_or(RuntimeError::InvalidAddress { ip, address: arg3 })?;
 
                     if self.debug {
                         println!("> [#{ip}] Executing ADD operation (optcode {optcode}) with arguments {arg1}/{arg2}/{arg3}")
@@ -117,13 +120,10 @@ impl Intcode {
                 OPTCODE_MULTIPLY => {
                     let arg1 = self.get_argument(&operation, ip, 1)?;
                     let arg2 = self.get_argument(&operation, ip, 2)?;
-                    let arg3 = self.get_plain_argument(ip, 3)?;
+                    let arg3 = self.get_address(&operation, ip, 3)?;
 
-                    self.set(arg3 as usize, arg1 * arg2)
-                        .ok_or(RuntimeError::InvalidAddress {
-                            ip,
-                            address: arg3 as usize,
-                        })?;
+                    self.set(arg3, arg1 * arg2)
+                        .ok_or(RuntimeError::InvalidAddress { ip, address: arg3 })?;
 
                     if self.debug {
                         println!("> [#{ip}] Executing MULTIPLY operation (optcode {optcode}) with arguments {arg1}/{arg2}/{arg3}")
@@ -132,18 +132,15 @@ impl Intcode {
                     ip += 4;
                 }
                 OPTCODE_INPUT => {
-                    let arg1 = self.get_plain_argument(ip, 1)?;
+                    let arg1 = self.get_address(&operation, ip, 1)?;
 
                     let input = self
                         .input
                         .pop_front()
                         .ok_or(RuntimeError::MissingInput { ip })?;
 
-                    self.set(arg1 as usize, input)
-                        .ok_or(RuntimeError::InvalidAddress {
-                            ip,
-                            address: arg1 as usize,
-                        })?;
+                    self.set(arg1, input)
+                        .ok_or(RuntimeError::InvalidAddress { ip, address: arg1 })?;
 
                     if self.debug {
                         println!("> [#{ip}] Executing INPUT operation (optcode {optcode}) with argument {arg1}")
@@ -193,15 +190,12 @@ impl Intcode {
                 OPTCODE_LESS_THAN => {
                     let arg1 = self.get_argument(&operation, ip, 1)?;
                     let arg2 = self.get_argument(&operation, ip, 2)?;
-                    let arg3 = self.get_plain_argument(ip, 3)?;
+                    let arg3 = self.get_address(&operation, ip, 3)?;
 
                     let value = if arg1 < arg2 { 1 } else { 0 };
 
-                    self.set(arg3 as usize, value)
-                        .ok_or(RuntimeError::InvalidAddress {
-                            ip,
-                            address: arg3 as usize,
-                        })?;
+                    self.set(arg3, value)
+                        .ok_or(RuntimeError::InvalidAddress { ip, address: arg3 })?;
 
                     if self.debug {
                         println!("> [#{ip}] Executing LESS_THAN operation (optcode {optcode}) with arguments {arg1}/{arg2}/{arg3}")
@@ -212,21 +206,29 @@ impl Intcode {
                 OPTCODE_EQUALS => {
                     let arg1 = self.get_argument(&operation, ip, 1)?;
                     let arg2 = self.get_argument(&operation, ip, 2)?;
-                    let arg3 = self.get_plain_argument(ip, 3)?;
+                    let arg3 = self.get_address(&operation, ip, 3)?;
 
                     let value = if arg1 == arg2 { 1 } else { 0 };
 
-                    self.set(arg3 as usize, value)
-                        .ok_or(RuntimeError::InvalidAddress {
-                            ip,
-                            address: arg3 as usize,
-                        })?;
+                    self.set(arg3, value)
+                        .ok_or(RuntimeError::InvalidAddress { ip, address: arg3 })?;
 
                     if self.debug {
                         println!("> [#{ip}] Executing EQUALS operation (optcode {optcode}) with arguments {arg1}/{arg2}/{arg3}")
                     }
 
                     ip += 4;
+                }
+                OPTCODE_ADJUST_RELATIVE_BASE => {
+                    let arg1 = self.get_argument(&operation, ip, 1)?;
+
+                    self.relative_base += arg1;
+
+                    if self.debug {
+                        println!("> [#{ip}] Executing ADJUST_RELATIVE_BASE operation (optcode {optcode}) with argument {arg1}")
+                    }
+
+                    ip += 2;
                 }
                 OPTCODE_HALT => {
                     if self.debug {
@@ -244,11 +246,15 @@ impl Intcode {
         Ok(self)
     }
 
-    pub fn get(&self, address: usize) -> Option<i32> {
-        self.memory.get(address).copied()
+    pub fn get(&self, address: usize) -> Option<i64> {
+        self.memory.get(address).or(Some(&0)).copied()
     }
 
-    pub fn set(&mut self, address: usize, value: i32) -> Option<()> {
+    pub fn set(&mut self, address: usize, value: i64) -> Option<()> {
+        if address >= self.memory.len() {
+            self.memory.resize(address + 1, 0);
+        }
+
         if let Some(address) = self.memory.get_mut(address) {
             *address = value;
             Some(())
@@ -257,11 +263,11 @@ impl Intcode {
         }
     }
 
-    pub fn input(&mut self, value: i32) {
+    pub fn input(&mut self, value: i64) {
         self.input.push_back(value);
     }
 
-    pub fn output(&mut self) -> Option<i32> {
+    pub fn output(&mut self) -> Option<i64> {
         self.output.pop_front()
     }
 
@@ -285,7 +291,7 @@ impl Intcode {
         operation: &Operation,
         ip: usize,
         n: usize,
-    ) -> Result<i32, RuntimeError> {
+    ) -> Result<i64, RuntimeError> {
         let argument = self.get_plain_argument(ip, n)?;
 
         match operation
@@ -300,10 +306,34 @@ impl Intcode {
                     })
             }
             ParameterMode::Immediate => Ok(argument),
+            ParameterMode::Relative => self.get((self.relative_base + argument) as usize).ok_or(
+                RuntimeError::InvalidAddress {
+                    ip,
+                    address: argument as usize,
+                },
+            ),
         }
     }
 
-    fn get_plain_argument(&self, ip: usize, n: usize) -> Result<i32, RuntimeError> {
+    fn get_address(
+        &self,
+        operation: &Operation,
+        ip: usize,
+        n: usize,
+    ) -> Result<usize, RuntimeError> {
+        let argument = self.get_plain_argument(ip, n)?;
+
+        match operation
+            .parameter_mode(n as u32)
+            .ok_or(RuntimeError::ArgumentError { ip, n })?
+        {
+            ParameterMode::Position => Ok(argument as usize),
+            ParameterMode::Immediate => Err(RuntimeError::ArgumentError { ip, n }),
+            ParameterMode::Relative => Ok((self.relative_base + argument) as usize),
+        }
+    }
+
+    fn get_plain_argument(&self, ip: usize, n: usize) -> Result<i64, RuntimeError> {
         self.get(ip + n)
             .ok_or(RuntimeError::ArgumentError { ip, n })
     }
@@ -416,7 +446,7 @@ mod tests {
         );
         assert_eq!(intcode.output().unwrap(), 1);
 
-        //Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
+        // Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
         let mut intcode = Intcode::from("3,3,1107,-1,8,3,4,3,99");
 
         intcode.input(7);
@@ -433,5 +463,24 @@ mod tests {
             vec![3, 3, 1107, 0, 8, 3, 4, 3, 99]
         );
         assert_eq!(intcode.output().unwrap(), 0);
+
+        // Takes no input and produces a copy of itself as output.
+        let mut intcode =
+            Intcode::from("109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99");
+
+        intcode.run().unwrap();
+        assert_eq!(intcode.output().unwrap(), 109);
+
+        // Should output a 16-digit number.
+        let mut intcode = Intcode::from("1102,34915192,34915192,7,4,7,99,0");
+
+        intcode.run().unwrap();
+        assert_eq!(intcode.output().unwrap(), 1219070632396864);
+
+        // Should output the large number in the middle.
+        let mut intcode = Intcode::from("104,1125899906842624,99");
+
+        intcode.run().unwrap();
+        assert_eq!(intcode.output().unwrap(), 1125899906842624);
     }
 }
