@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{collections::VecDeque, fmt::Display};
 
 const OPTCODE_ADD: i32 = 1;
 const OPTCODE_MULTIPLY: i32 = 2;
@@ -69,25 +69,29 @@ impl Operation {
 #[derive(Debug, Clone)]
 pub struct Intcode {
     memory: Vec<i32>,
-    input: Vec<i32>,
-    output: Vec<i32>,
+    ip: usize,
+    input: VecDeque<i32>,
+    output: VecDeque<i32>,
     debug: bool,
+    halted: bool,
 }
 
 impl Intcode {
     fn new(memory: Vec<i32>) -> Self {
         Self {
             memory,
-            input: Vec::new(),
-            output: Vec::new(),
+            ip: 0,
+            input: VecDeque::new(),
+            output: VecDeque::new(),
             debug: false,
+            halted: false,
         }
     }
 
     pub fn run(&mut self) -> Result<&Self, RuntimeError> {
-        let mut ip = 0;
+        let mut ip = self.ip;
 
-        loop {
+        while !self.halted {
             let optcode = self.get(ip).ok_or(RuntimeError::AbruptHalt)?;
             let operation = Operation(optcode);
             let optcode = operation.optcode();
@@ -130,7 +134,10 @@ impl Intcode {
                 OPTCODE_INPUT => {
                     let arg1 = self.get_plain_argument(ip, 1)?;
 
-                    let input = self.input.pop().ok_or(RuntimeError::MissingInput { ip })?; // TODO: use queue
+                    let input = self
+                        .input
+                        .pop_front()
+                        .ok_or(RuntimeError::MissingInput { ip })?;
 
                     self.set(arg1 as usize, input)
                         .ok_or(RuntimeError::InvalidAddress {
@@ -147,7 +154,7 @@ impl Intcode {
                 OPTCODE_OUTPUT => {
                     let arg1 = self.get_argument(&operation, ip, 1)?;
 
-                    self.output.push(arg1);
+                    self.output.push_back(arg1);
 
                     if self.debug {
                         println!("> [#{ip}] Executing OUTPUT operation (optcode {optcode}) with argument {arg1}")
@@ -223,13 +230,15 @@ impl Intcode {
                 }
                 OPTCODE_HALT => {
                     if self.debug {
-                        println!("> [#{ip}] Executing HALT operation (optcode {optcode})")
+                        println!("> [#{ip}] Executing HALT operation (optcode {optcode})\n")
                     }
 
-                    break;
+                    self.halted = true;
                 }
                 _ => return Err(RuntimeError::InvalidInstruction { optcode, ip }),
             }
+
+            self.ip = ip;
         }
 
         Ok(self)
@@ -249,13 +258,24 @@ impl Intcode {
     }
 
     pub fn input(&mut self, value: i32) {
-        self.input.push(value);
+        self.input.push_back(value);
     }
 
     pub fn output(&mut self) -> Option<i32> {
-        self.output.pop()
+        self.output.pop_front()
     }
 
+    #[allow(dead_code)]
+    pub fn reset(&mut self) {
+        self.ip = 0;
+        self.halted = false;
+    }
+
+    pub fn is_halted(&self) -> bool {
+        self.halted
+    }
+
+    #[allow(dead_code)]
     pub fn set_debug(&mut self, value: bool) {
         self.debug = value;
     }
@@ -294,7 +314,7 @@ impl From<&str> for Intcode {
         let memory = value
             .trim()
             .split(',')
-            .map(|c| c.parse().unwrap())
+            .map(|c| c.parse().expect("Invalid memory value"))
             .collect();
 
         Self::new(memory)
@@ -352,6 +372,7 @@ mod tests {
         );
         assert_eq!(intcode.output().unwrap(), 0);
 
+        intcode.reset();
         intcode.input(8);
         assert_eq!(
             intcode.run().unwrap().memory,
@@ -369,6 +390,7 @@ mod tests {
         );
         assert_eq!(intcode.output().unwrap(), 1);
 
+        intcode.reset();
         intcode.input(9);
         assert_eq!(
             intcode.run().unwrap().memory,
@@ -386,6 +408,7 @@ mod tests {
         );
         assert_eq!(intcode.output().unwrap(), 0);
 
+        intcode.reset();
         intcode.input(8);
         assert_eq!(
             intcode.run().unwrap().memory,
@@ -403,6 +426,7 @@ mod tests {
         );
         assert_eq!(intcode.output().unwrap(), 1);
 
+        intcode.reset();
         intcode.input(9);
         assert_eq!(
             intcode.run().unwrap().memory,

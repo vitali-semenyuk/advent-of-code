@@ -18,7 +18,12 @@ fn solve_first_part(input: &str) -> i32 {
         panic!("Error! {err}")
     }
 
-    intcode.output().expect("No output")
+    let mut outputs = Vec::new();
+    while let Some(output) = intcode.output() {
+        outputs.push(output);
+    }
+
+    *outputs.last().expect("No output")
 }
 
 fn solve_second_part(input: &str) -> i32 {
