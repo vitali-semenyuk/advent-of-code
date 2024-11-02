@@ -42,7 +42,6 @@ fn solve_second_part(input: &str) -> String {
                     for layer in 0..layers {
                         let offset = IMAGE_SIZE * layer + i;
                         match data[offset] {
-                            //'0' => return '■',
                             '0' => return '0',
                             '1' => return ' ',
                             '2' => continue,
