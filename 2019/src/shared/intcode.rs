@@ -271,6 +271,14 @@ impl Intcode {
         self.output.pop_front()
     }
 
+    pub fn buffered_output(&mut self) -> Vec<i64> {
+        let buffer = self.output.clone().into_iter().collect();
+
+        self.output.clear();
+
+        buffer
+    }
+
     #[allow(dead_code)]
     pub fn reset(&mut self) {
         self.ip = 0;
