@@ -105,7 +105,7 @@ impl Path {
         let mut from = Vector::new(0, 0);
 
         for m in &self.moves {
-            let mut to = from.clone();
+            let mut to = from;
 
             match m.direction {
                 Direction::Up => to.y += m.length as i32,
@@ -115,8 +115,8 @@ impl Path {
             }
 
             segments.push(Segment {
-                from: from.clone(),
-                to: to.clone(),
+                from,
+                to,
                 length: m.length,
             });
 

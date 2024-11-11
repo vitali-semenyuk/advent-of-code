@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{cmp::Ordering, fmt::Display};
 
 use crate::shared::intcode::{Intcode, RuntimeError};
 
@@ -67,13 +67,12 @@ impl Game {
     }
 
     fn act(&mut self, intcode: &mut Intcode) {
-        if self.ball_x > self.paddle_x {
-            intcode.input(1);
-        } else if self.ball_x < self.paddle_x {
-            intcode.input(-1);
-        } else {
-            intcode.input(0);
-        }
+        let input = match self.ball_x.cmp(&self.paddle_x) {
+            Ordering::Less => -1,
+            Ordering::Equal => 0,
+            Ordering::Greater => 1,
+        };
+        intcode.input(input);
 
         if let Err(err) = intcode.run() {
             match err {
@@ -83,7 +82,7 @@ impl Game {
         }
     }
 
-    fn update_screen(&mut self, data: &Vec<i64>) {
+    fn update_screen(&mut self, data: &[i64]) {
         let cells = data.chunks(3).collect::<Vec<_>>();
 
         for cell in cells {
@@ -161,7 +160,7 @@ fn solve_second_part(input: &str) -> u32 {
     game.score
 }
 
-fn create_screen(data: &Vec<i64>) -> Vec<Vec<Tile>> {
+fn create_screen(data: &[i64]) -> Vec<Vec<Tile>> {
     let cells = data.chunks(3).filter(|ch| ch[0] != -1).collect::<Vec<_>>();
 
     let width = cells.iter().max_by_key(|ch| ch[0]).unwrap()[0] as usize + 1;

@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fmt::Display, usize};
+use std::{collections::HashMap, fmt::Display};
 
 const IMAGE_WIDTH: usize = 25;
 const IMAGE_HEIGHT: usize = 6;
@@ -49,7 +49,7 @@ fn solve_second_part(input: &str) -> String {
                         };
                     }
 
-                    panic!("Corrupt image")
+                    unreachable!("Corrupt image");
                 })
                 .collect::<String>()
         })

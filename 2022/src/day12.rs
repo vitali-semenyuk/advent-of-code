@@ -41,7 +41,7 @@ fn solve_second_part(input: &str) -> i32 {
         .unwrap()
 }
 
-fn bfs(field: &Vec<Vec<char>>, start: Vertex) -> i32 {
+fn bfs(field: &[Vec<char>], start: Vertex) -> i32 {
     let mut queue = VecDeque::from([start]);
     let mut visited = HashSet::new();
     visited.insert(start);
