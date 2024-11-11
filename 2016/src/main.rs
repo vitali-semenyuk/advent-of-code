@@ -66,7 +66,8 @@ fn main() {
     let day = args.next().expect("Please provide a day");
     let day: u8 = day.parse().expect("Day should be a number");
 
-    let input = fs::read_to_string(format!("./tasks/day{day:0>2}.txt")).expect("No input file");
+    let input =
+        fs::read_to_string(format!("../inputs/2016/day{day:0>2}.txt")).expect("No input file");
     let solver_fn = DAYS.get((day - 1) as usize).expect("No solver function");
 
     let (first_answer, second_answer) = solver_fn(&input);
