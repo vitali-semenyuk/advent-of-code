@@ -179,9 +179,7 @@ impl Solver {
         queue.push_back((start, 0));
         let mut visited = HashSet::new();
 
-        //let mut mx = 0;
         while let Some((point, distance)) = queue.pop_front() {
-            //mx = mx.max(distance);
             if visited.contains(&point) {
                 continue;
             }
@@ -306,25 +304,6 @@ fn solve_second_part(input: &str) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    const INPUT: &str = "
-";
-
-    #[ignore]
-    #[test]
-    fn test_first_part() {
-        let answer = 42;
-
-        assert_eq!(answer, solve_first_part(INPUT))
-    }
-
-    #[ignore]
-    #[test]
-    fn test_second_part() {
-        let answer = 42;
-
-        assert_eq!(answer, solve_second_part(INPUT))
-    }
 
     check_answers!(336, 360);
 }

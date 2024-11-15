@@ -183,24 +183,5 @@ fn create_screen(data: &[i64]) -> Vec<Vec<Tile>> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = "
-";
-
-    #[ignore]
-    #[test]
-    fn test_first_part() {
-        let answer = 42;
-
-        assert_eq!(answer, solve_first_part(INPUT))
-    }
-
-    #[ignore]
-    #[test]
-    fn test_second_part() {
-        let answer = 42;
-
-        assert_eq!(answer, solve_second_part(INPUT))
-    }
-
     check_answers!(355, 18371);
 }
